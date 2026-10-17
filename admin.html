@@ -4,54 +4,112 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>MOON Admin</title>
+  <meta name="theme-color" content="#090909">
+  <title>MOON Manager | Administration</title>
 
   <style>
     :root {
       color-scheme: dark;
-      --bg: #0b0912;
-      --panel: #15111f;
-      --border: #30243f;
-      --purple: #a855f7;
-      --text: #f4efff;
-      --muted: #aaa0bd;
-      --danger: #dc2626;
+      --bg: #090909;
+      --sidebar: #0d0d0d;
+      --panel: #141414;
+      --panel-2: #191919;
+      --border: #2b2b2b;
+      --red: #e32636;
+      --red-dark: #8f101c;
+      --text: #f5f5f5;
+      --muted: #929292;
+      --success: #36c98f;
+      --warning: #f0b44d;
+      --danger: #ff4d5b;
+      --radius: 12px;
     }
 
     * { box-sizing: border-box; }
 
     body {
       margin: 0;
+      min-height: 100vh;
       background: var(--bg);
       color: var(--text);
-      font-family: Arial, sans-serif;
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
     }
 
-    .container {
-      width: min(1100px, 92%);
-      margin: 30px auto;
+    button, input, textarea, select { font: inherit; }
+
+    button {
+      cursor: pointer;
+      transition: background .15s, border-color .15s;
     }
 
-    h1, h2 { margin-top: 0; }
+    button:focus-visible, input:focus-visible,
+    textarea:focus-visible, select:focus-visible {
+      outline: 2px solid #ff5664;
+      outline-offset: 2px;
+    }
+
     .muted { color: var(--muted); }
+    .small { font-size: 12px; }
+    .hidden { display: none !important; }
 
-    .panel, .card {
+    .login-wrap {
+      width: min(420px, 92%);
+      margin: 9vh auto;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--red);
+      color: white;
+      font-weight: 900;
+      font-size: 22px;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 21px;
+      letter-spacing: 2px;
+    }
+
+    .brand p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .panel {
       background: var(--panel);
       border: 1px solid var(--border);
-      border-radius: 14px;
+      border-radius: var(--radius);
       padding: 20px;
-      margin: 16px 0;
     }
 
-    input, textarea, select, button {
+    .login-wrap .panel { margin-top: 25px; }
+
+    label {
+      display: block;
+      margin: 12px 0 6px;
+      color: #d5d5d5;
+      font-size: 13px;
+    }
+
+    input, textarea, select {
       width: 100%;
-      padding: 12px;
-      margin: 7px 0;
-      border-radius: 8px;
+      padding: 11px 12px;
       border: 1px solid var(--border);
-      background: #0f0b18;
+      border-radius: 8px;
+      background: #0b0b0b;
       color: var(--text);
-      font: inherit;
     }
 
     textarea {
@@ -59,104 +117,445 @@
       resize: vertical;
     }
 
-    button {
-      cursor: pointer;
-      background: var(--purple);
-      border-color: var(--purple);
-      color: white;
-      font-weight: bold;
-    }
-
-    button.secondary { background: #251a35; }
-    button.danger { background: var(--danger); }
-
-    button:focus-visible, input:focus-visible,
-    textarea:focus-visible, select:focus-visible {
-      outline: 2px solid #d8b4fe;
-      outline-offset: 2px;
-    }
-
-    nav {
-      display: flex;
-      flex-wrap: wrap;
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       gap: 8px;
-      margin: 22px 0;
-    }
-
-    nav button {
-      width: auto;
-      flex: 1 1 150px;
-    }
-
-    section[hidden], [hidden] { display: none !important; }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-      gap: 14px;
-    }
-
-    .card strong {
-      display: block;
-      font-size: 28px;
-      margin-top: 12px;
-    }
-
-    #status {
-      min-height: 24px;
-      overflow-wrap: anywhere;
-    }
-
-    .notice {
-      padding: 12px;
-      border-left: 3px solid var(--purple);
-      background: #1b1427;
-      border-radius: 5px;
-      margin: 12px 0;
-    }
-
-    .record {
+      padding: 10px 14px;
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 12px;
-      margin: 10px 0;
-      overflow-wrap: anywhere;
+      border-radius: 8px;
+      background: #202020;
+      color: white;
+      font-weight: 650;
     }
 
-    .record button {
-      width: auto;
-      padding: 8px 12px;
+    .btn:hover { background: #303030; }
+
+    .btn-primary {
+      background: var(--red);
+      border-color: var(--red);
     }
+
+    .btn-primary:hover { background: #bd1727; }
+
+    .btn-danger {
+      background: #421318;
+      border-color: #70212a;
+      color: #ffb5bc;
+    }
+
+    .btn-danger:hover { background: #5a171f; }
+
+    .btn-block { width: 100%; margin-top: 16px; }
+
+    .app {
+      display: grid;
+      grid-template-columns: 245px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    aside {
+      display: flex;
+      flex-direction: column;
+      padding: 22px 15px;
+      background: var(--sidebar);
+      border-right: 1px solid var(--border);
+    }
+
+    aside .brand { padding: 0 8px 25px; }
+
+    .nav-label {
+      margin: 16px 10px 8px;
+      color: #777;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+    }
+
+    .nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      width: 100%;
+      margin: 3px 0;
+      padding: 12px;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      background: transparent;
+      color: #bcbcbc;
+      text-align: left;
+    }
+
+    .nav-btn:hover {
+      background: #171717;
+      color: white;
+    }
+
+    .nav-btn.active {
+      background: #291013;
+      border-color: #4b1c22;
+      color: #ff6875;
+    }
+
+    .nav-icon {
+      width: 21px;
+      text-align: center;
+    }
+
+    .sidebar-bottom {
+      margin-top: auto;
+      padding: 12px 8px 0;
+    }
+
+    .connection {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px;
+      background: #151515;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 12px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      flex: 0 0 8px;
+      border-radius: 50%;
+      background: var(--warning);
+    }
+
+    .dot.online { background: var(--success); }
+    .dot.offline { background: var(--danger); }
+
+    main { min-width: 0; }
 
     .topbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
+      gap: 15px;
+      padding: 18px 28px;
+      background: #0d0d0d;
+      border-bottom: 1px solid var(--border);
     }
 
-    .topbar button { width: auto; }
+    .topbar-title { font-weight: 750; }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-    @media (max-width: 600px) {
-      .container { margin: 18px auto; }
-      .panel, .card { padding: 15px; }
-      nav button { flex: 1 1 100%; }
+    .avatar {
+      display: grid;
+      place-items: center;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      background: #42151b;
+      color: #ff8a94;
+      font-weight: 800;
+    }
+
+    .content {
+      width: min(1500px, 100%);
+      margin: 0 auto;
+      padding: 28px;
+    }
+
+    .page-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .page-header h2 {
+      margin: 0;
+      font-size: 25px;
+    }
+
+    .page-header p {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .stat-card {
+      padding: 18px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .stat-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .stat-icon {
+      display: grid;
+      place-items: center;
+      width: 35px;
+      height: 35px;
+      border-radius: 9px;
+      background: #291013;
+      color: #ff6875;
+      font-size: 17px;
+    }
+
+    .stat-number {
+      display: block;
+      margin-top: 18px;
+      font-size: 29px;
+      font-weight: 800;
+    }
+
+    .stat-foot {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .section-title h3 {
+      margin: 0;
+      font-size: 15px;
+    }
+
+    .section-title p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .toolbar > * { min-width: 0; }
+    .toolbar input { flex: 1; }
+
+    .record {
+      padding: 15px;
+      margin-top: 10px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: #101010;
+      overflow-wrap: anywhere;
+    }
+
+    .record-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .record-title {
+      font-weight: 750;
+      overflow-wrap: anywhere;
+    }
+
+    .record-meta {
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .record-body {
+      margin: 12px 0;
+      color: #d1d1d1;
+      font-size: 13px;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .record-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .record-actions .btn {
+      width: auto;
+      padding: 7px 10px;
+      font-size: 12px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 8px;
+      border: 1px solid #373737;
+      border-radius: 999px;
+      background: #202020;
+      color: #ccc;
+      font-size: 10px;
+      white-space: nowrap;
+    }
+
+    .badge.red {
+      border-color: #65232a;
+      background: #321216;
+      color: #ff9ba4;
+    }
+
+    .badge.green {
+      border-color: #1d573e;
+      background: #10281d;
+      color: #81e0b3;
+    }
+
+    .badge.yellow {
+      border-color: #60491f;
+      background: #292012;
+      color: #f3cb78;
+    }
+
+    .empty {
+      padding: 30px 12px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 13px;
+    }
+
+    .notice {
+      padding: 13px 15px;
+      margin: 14px 0;
+      border: 1px solid #4b2727;
+      border-left: 3px solid var(--red);
+      border-radius: 8px;
+      background: #1a1011;
+      color: #d6c6c7;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0 14px;
+    }
+
+    .form-full { grid-column: 1 / -1; }
+
+    .status-message {
+      min-height: 20px;
+      margin: 0 0 16px;
+      color: #ff8993;
+      font-size: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .status-message.success { color: var(--success); }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    th {
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    .mobile-menu { display: none; }
+
+    @media (max-width: 1050px) {
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .two-col { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 720px) {
+      .app { grid-template-columns: 1fr; }
+      aside { padding: 12px; border-right: 0; border-bottom: 1px solid var(--border); }
+      aside .brand { padding-bottom: 12px; }
+      .nav-label, .sidebar-bottom { display: none; }
+      aside nav {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 4px;
+      }
+      .nav-btn { padding: 10px; font-size: 12px; }
+      .topbar { padding: 13px 16px; }
+      .content { padding: 18px 14px; }
+      .page-header h2 { font-size: 21px; }
+    }
+
+    @media (max-width: 430px) {
+      .grid { grid-template-columns: 1fr 1fr; }
+      .stat-card { padding: 13px; }
+      .stat-number { font-size: 24px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .form-full { grid-column: auto; }
+      .topbar-right .account-email { display: none; }
+      .page-header { flex-direction: column; }
+      .toolbar { flex-direction: column; align-items: stretch; }
+      .toolbar .btn { width: 100%; }
     }
   </style>
 </head>
 
 <body>
-  <main class="container">
-    <header>
-      <h1>🌙 MOON Admin</h1>
-      <p class="muted">Panneau d’administration du site MOON</p>
-    </header>
+  <section id="loginScreen" class="login-wrap">
+    <div class="brand">
+      <div class="brand-mark">M</div>
+      <div>
+        <h1>MOON MANAGER</h1>
+        <p>Administration centrale</p>
+      </div>
+    </div>
 
-    <p id="status" role="status" aria-live="polite"></p>
+    <div class="panel">
+      <h2>Connexion administrateur</h2>
+      <p class="muted small">Accès réservé aux comptes autorisés.</p>
 
-    <section id="loginPanel" class="panel">
-      <h2>🔐 Connexion</h2>
       <form id="loginForm">
         <label for="email">Adresse e-mail</label>
         <input id="email" type="email" autocomplete="username" required>
@@ -165,130 +564,363 @@
         <input id="password" type="password"
                autocomplete="current-password" required>
 
-        <button type="submit">Se connecter</button>
-      </form>
-    </section>
-
-    <section id="dashboard" hidden>
-      <div class="topbar">
-        <p id="account" class="muted"></p>
-        <button id="logoutBtn" class="secondary" type="button">
-          Déconnexion
+        <button class="btn btn-primary btn-block" type="submit">
+          Se connecter
         </button>
+      </form>
+
+      <p id="loginStatus" class="status-message" role="status"
+         aria-live="polite"></p>
+    </div>
+  </section>
+
+  <div id="app" class="app hidden">
+    <aside>
+      <div class="brand">
+        <div class="brand-mark">M</div>
+        <div>
+          <h1>MOON</h1>
+          <p>Control Center</p>
+        </div>
       </div>
 
-      <nav aria-label="Navigation du panel">
-        <button data-page="members">👥 Membres</button>
-        <button data-page="stats">📊 Statistiques</button>
-        <button data-page="config">⚙️ Configuration</button>
-        <button data-page="moderation">🛡️ Modération</button>
+      <div class="nav-label">Principal</div>
+      <nav aria-label="Navigation principale">
+        <button class="nav-btn active" data-page="overview">
+          <span class="nav-icon">▦</span> Tableau de bord
+        </button>
+        <button class="nav-btn" data-page="members">
+          <span class="nav-icon">♙</span> Membres
+        </button>
+        <button class="nav-btn" data-page="moderation">
+          <span class="nav-icon">🛡</span> Modération
+        </button>
+
+        <div class="nav-label">Communication</div>
+        <button class="nav-btn" data-page="support">
+          <span class="nav-icon">🎫</span> Support du site
+        </button>
+        <button class="nav-btn" data-page="dms">
+          <span class="nav-icon">✉</span> DM Discord
+        </button>
+
+        <div class="nav-label">Paramètres</div>
+        <button class="nav-btn" data-page="config">
+          <span class="nav-icon">⚙</span> Configuration
+        </button>
       </nav>
 
-      <section id="page-members" class="panel">
-        <h2>👥 Gestion des membres</h2>
+      <div class="sidebar-bottom">
+        <div class="connection">
+          <span id="connectionDot" class="dot"></span>
+          <span id="connectionText">Vérification de la connexion…</span>
+        </div>
+      </div>
+    </aside>
 
-        <form id="memberForm">
-          <label for="memberName">Nom du membre</label>
-          <input id="memberName" required maxlength="100">
-
-          <label for="memberNotes">Notes</label>
-          <textarea id="memberNotes" maxlength="1000"></textarea>
-
-          <button type="submit">Ajouter un membre</button>
-        </form>
-
-        <button id="refreshMembers" class="secondary" type="button">
-          Actualiser la liste
-        </button>
-        <div id="membersList"></div>
-      </section>
-
-      <section id="page-stats" class="panel" hidden>
-        <h2>📊 Statistiques</h2>
-
-        <div class="grid">
-          <div class="card">
-            Membres enregistrés
-            <strong id="memberCount">—</strong>
-          </div>
-
-          <div class="card">
-            Dossiers de modération
-            <strong id="caseCount">—</strong>
-          </div>
-
-          <div class="card">
-            Dossiers ouverts
-            <strong id="openCaseCount">—</strong>
-          </div>
+    <main>
+      <header class="topbar">
+        <div>
+          <div id="topTitle" class="topbar-title">Tableau de bord</div>
+          <div class="muted small">MOON / Administration</div>
         </div>
 
-        <p class="muted">
-          Ces chiffres concernent les données enregistrées dans la base
-          MOON, pas automatiquement les membres réels de Discord.
-        </p>
+        <div class="topbar-right">
+          <span id="accountEmail" class="muted small account-email"></span>
+          <div id="avatar" class="avatar">M</div>
+          <button id="logoutBtn" class="btn" type="button">
+            Déconnexion
+          </button>
+        </div>
+      </header>
 
-        <button id="refreshStats" class="secondary" type="button">
-          Actualiser les statistiques
-        </button>
-      </section>
+      <div class="content">
+        <p id="globalStatus" class="status-message" role="status"
+           aria-live="polite"></p>
 
-      <section id="page-config" class="panel" hidden>
-        <h2>⚙️ Configuration du site</h2>
+        <!-- TABLEAU DE BORD -->
+        <section id="page-overview" class="page">
+          <div class="page-header">
+            <div>
+              <h2>Vue d'ensemble</h2>
+              <p>État général des données enregistrées dans MOON.</p>
+            </div>
+            <button id="refreshAll" class="btn" type="button">
+              ↻ Actualiser
+            </button>
+          </div>
 
-        <form id="configForm">
-          <label for="siteName">Nom du site</label>
-          <input id="siteName" required>
+          <div class="grid">
+            <article class="stat-card">
+              <div class="stat-top">
+                Membres enregistrés
+                <span class="stat-icon">♙</span>
+              </div>
+              <strong id="statMembers" class="stat-number">—</strong>
+              <div class="stat-foot">Table moon_members</div>
+            </article>
 
-          <label for="siteDescription">Description</label>
-          <textarea id="siteDescription"></textarea>
+            <article class="stat-card">
+              <div class="stat-top">
+                Dossiers de modération
+                <span class="stat-icon">🛡</span>
+              </div>
+              <strong id="statCases" class="stat-number">—</strong>
+              <div class="stat-foot">Total enregistré</div>
+            </article>
 
-          <label for="discordInvite">Invitation Discord</label>
-          <input id="discordInvite" type="url">
+            <article class="stat-card">
+              <div class="stat-top">
+                Tickets ouverts
+                <span class="stat-icon">🎫</span>
+              </div>
+              <strong id="statTickets" class="stat-number">—</strong>
+              <div class="stat-foot">Support du site</div>
+            </article>
 
-          <label for="tiktokLink">Lien TikTok</label>
-          <input id="tiktokLink" type="url">
+            <article class="stat-card">
+              <div class="stat-top">
+                DM non lus
+                <span class="stat-icon">✉</span>
+              </div>
+              <strong id="statDMs" class="stat-number">—</strong>
+              <div class="stat-foot">Messages enregistrés</div>
+            </article>
+          </div>
 
-          <button type="submit">Enregistrer la configuration</button>
-        </form>
-      </section>
+          <div class="two-col">
+            <div class="panel">
+              <div class="section-title">
+                <div>
+                  <h3>Derniers tickets</h3>
+                  <p>Demandes reçues depuis le site.</p>
+                </div>
+                <button class="btn" data-goto="support" type="button">
+                  Voir tout
+                </button>
+              </div>
+              <div id="recentTickets" class="empty">Chargement…</div>
+            </div>
 
-      <section id="page-moderation" class="panel" hidden>
-        <h2>🛡️ Modération</h2>
+            <div class="panel">
+              <div class="section-title">
+                <div>
+                  <h3>Derniers DM</h3>
+                  <p>Messages reçus par le bot.</p>
+                </div>
+                <button class="btn" data-goto="dms" type="button">
+                  Voir tout
+                </button>
+              </div>
+              <div id="recentDMs" class="empty">Chargement…</div>
+            </div>
+          </div>
 
-        <form id="caseForm">
-          <label for="caseMember">Nom du membre concerné</label>
-          <input id="caseMember" required maxlength="100">
+          <div class="notice">
+            Les chiffres affichés correspondent aux données présentes dans
+            Supabase. Le nombre de membres réels de Discord nécessite une
+            synchronisation active avec le bot.
+          </div>
+        </section>
 
-          <label for="caseReason">Motif</label>
-          <textarea id="caseReason" required maxlength="2000"></textarea>
+        <!-- MEMBRES -->
+        <section id="page-members" class="page hidden">
+          <div class="page-header">
+            <div>
+              <h2>Gestion des membres</h2>
+              <p>Consulter et gérer les fiches enregistrées.</p>
+            </div>
+          </div>
 
-          <label for="caseStatus">Statut</label>
-          <select id="caseStatus">
-            <option value="open">Ouvert</option>
-            <option value="closed">Fermé</option>
-          </select>
+          <div class="panel">
+            <h3>Ajouter une fiche</h3>
+            <form id="memberForm">
+              <div class="form-grid">
+                <div>
+                  <label for="memberName">Nom ou pseudonyme</label>
+                  <input id="memberName" maxlength="100" required>
+                </div>
+                <div>
+                  <label for="memberNotes">Notes</label>
+                  <input id="memberNotes" maxlength="1000">
+                </div>
+              </div>
+              <button class="btn btn-primary" type="submit">
+                Ajouter la fiche
+              </button>
+            </form>
+          </div>
 
-          <button type="submit">Créer un dossier</button>
-        </form>
+          <div class="panel">
+            <div class="toolbar">
+              <input id="memberSearch" placeholder="Rechercher un membre…"
+                     aria-label="Rechercher un membre">
+              <button id="refreshMembers" class="btn" type="button">
+                Actualiser
+              </button>
+            </div>
+            <div id="membersList" class="empty">Chargement…</div>
+          </div>
+        </section>
 
-        <button id="refreshCases" class="secondary" type="button">
-          Actualiser les dossiers
-        </button>
+        <!-- MODÉRATION -->
+        <section id="page-moderation" class="page hidden">
+          <div class="page-header">
+            <div>
+              <h2>Modération</h2>
+              <p>Créer et suivre les dossiers de modération.</p>
+            </div>
+          </div>
 
-        <div id="casesList"></div>
-      </section>
-    </section>
-  </main>
+          <div class="notice">
+            Cette section enregistre des dossiers. Elle ne bannit pas et
+            n'expulse pas directement un membre de Discord. Ces actions
+            nécessitent une commande sécurisée côté bot.
+          </div>
+
+          <div class="panel">
+            <h3>Nouveau dossier</h3>
+            <form id="caseForm">
+              <label for="caseMember">Membre concerné</label>
+              <input id="caseMember" maxlength="100" required>
+
+              <label for="caseReason">Motif</label>
+              <textarea id="caseReason" maxlength="2000" required></textarea>
+
+              <label for="caseStatus">Statut initial</label>
+              <select id="caseStatus">
+                <option value="open">Ouvert</option>
+                <option value="closed">Fermé</option>
+              </select>
+
+              <button class="btn btn-primary" type="submit">
+                Créer le dossier
+              </button>
+            </form>
+          </div>
+
+          <div class="panel">
+            <div class="toolbar">
+              <input id="caseSearch" placeholder="Rechercher un dossier…"
+                     aria-label="Rechercher un dossier">
+              <button id="refreshCases" class="btn" type="button">
+                Actualiser
+              </button>
+            </div>
+            <div id="casesList" class="empty">Chargement…</div>
+          </div>
+        </section>
+
+        <!-- SUPPORT -->
+        <section id="page-support" class="page hidden">
+          <div class="page-header">
+            <div>
+              <h2>Support du site</h2>
+              <p>Consulter et traiter les demandes des visiteurs.</p>
+            </div>
+            <button id="refreshTickets" class="btn" type="button">
+              ↻ Actualiser
+            </button>
+          </div>
+
+          <div class="notice">
+            Les tickets apparaîtront ici lorsque le formulaire public du site
+            les enregistrera dans moon_support_tickets.
+          </div>
+
+          <div class="panel">
+            <div class="toolbar">
+              <input id="ticketSearch" placeholder="Rechercher un ticket…"
+                     aria-label="Rechercher un ticket">
+              <select id="ticketFilter" aria-label="Filtrer les tickets">
+                <option value="all">Tous les tickets</option>
+                <option value="open">Ouverts</option>
+                <option value="closed">Fermés</option>
+              </select>
+            </div>
+            <div id="ticketsList" class="empty">Chargement…</div>
+          </div>
+        </section>
+
+        <!-- DM DISCORD -->
+        <section id="page-dms" class="page hidden">
+          <div class="page-header">
+            <div>
+              <h2>Messages privés Discord</h2>
+              <p>Boîte de réception du bot MOON.</p>
+            </div>
+            <button id="refreshDMs" class="btn" type="button">
+              ↻ Actualiser
+            </button>
+          </div>
+
+          <div class="notice">
+            Les DM doivent d'abord être enregistrés par moon_bot.py.
+            Les réponses créées ici seront mises en attente pour le bot ;
+            elles ne seront pas envoyées tant que le traitement côté bot
+            n'aura pas été installé et démarré.
+          </div>
+
+          <div class="panel">
+            <div class="toolbar">
+              <input id="dmSearch" placeholder="Rechercher un utilisateur…"
+                     aria-label="Rechercher un DM">
+              <select id="dmFilter" aria-label="Filtrer les DM">
+                <option value="all">Tous les messages</option>
+                <option value="new">Non lus</option>
+                <option value="read">Lus</option>
+                <option value="answered">Répondus</option>
+              </select>
+            </div>
+            <div id="dmsList" class="empty">Chargement…</div>
+          </div>
+        </section>
+
+        <!-- CONFIGURATION -->
+        <section id="page-config" class="page hidden">
+          <div class="page-header">
+            <div>
+              <h2>Configuration</h2>
+              <p>Paramètres publics du site MOON.</p>
+            </div>
+          </div>
+
+          <div class="panel">
+            <form id="configForm">
+              <label for="siteName">Nom du site</label>
+              <input id="siteName" maxlength="100" required>
+
+              <label for="siteDescription">Description</label>
+              <textarea id="siteDescription" maxlength="2000"></textarea>
+
+              <label for="discordInvite">Invitation Discord</label>
+              <input id="discordInvite" type="url">
+
+              <label for="tiktokLink">Lien TikTok</label>
+              <input id="tiktokLink" type="url">
+
+              <button class="btn btn-primary" type="submit">
+                Enregistrer les paramètres
+              </button>
+            </form>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
+    "use strict";
+
+    // Configuration publique uniquement.
+    // Ne jamais placer une clé service_role ou un token Discord ici.
     const SUPABASE_URL =
       "https://uhpveiqgaharvwbqncre.supabase.co";
 
     const SUPABASE_KEY =
-      "sb_publishable_dm5DWX672NZGeZPd3FkXQA_b5DxWzat";
+      "sb_publishable_dm5DWX672GeZPd3FkXQA_b5DxWzat";
 
     const db = window.supabase.createClient(
       SUPABASE_URL,
@@ -297,22 +929,78 @@
 
     const $ = id => document.getElementById(id);
 
-    function status(message) {
-      $("status").textContent = message;
+    let currentUser = null;
+    let membersCache = [];
+    let casesCache = [];
+    let ticketsCache = [];
+    let dmsCache = [];
+
+    function setStatus(message, success = false) {
+      const element = $("globalStatus");
+      element.textContent = message;
+      element.classList.toggle("success", success);
     }
 
-    function showDashboard(user) {
-      $("loginPanel").hidden = true;
-      $("dashboard").hidden = false;
-      $("account").textContent = "Connecté : " + user.email;
+    function setLoginStatus(message) {
+      $("loginStatus").textContent = message;
+    }
+
+    function setConnection(online, message) {
+      $("connectionDot").className =
+        "dot " + (online ? "online" : "offline");
+      $("connectionText").textContent = message;
+    }
+
+    function formatDate(value) {
+      if (!value) return "Date inconnue";
+
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return "Date inconnue";
+
+      return date.toLocaleString("fr-FR", {
+        dateStyle: "short",
+        timeStyle: "short"
+      });
+    }
+
+    function makeElement(tag, className, text) {
+      const element = document.createElement(tag);
+      if (className) element.className = className;
+      if (text !== undefined) element.textContent = text;
+      return element;
+    }
+
+    function badge(text, color = "") {
+      return makeElement("span", "badge " + color, text);
+    }
+
+    function createButton(text, className, handler) {
+      const button = makeElement("button", "btn " + (className || ""), text);
+      button.type = "button";
+      button.addEventListener("click", handler);
+      return button;
+    }
+
+    function emptyMessage(container, text) {
+      container.replaceChildren(makeElement("div", "empty", text));
+    }
+
+    function showApp(user) {
+      currentUser = user;
+      $("loginScreen").classList.add("hidden");
+      $("app").classList.remove("hidden");
+      $("accountEmail").textContent = user.email || "";
+      $("avatar").textContent =
+        (user.email || "M").slice(0, 1).toUpperCase();
     }
 
     function showLogin() {
-      $("loginPanel").hidden = false;
-      $("dashboard").hidden = true;
+      currentUser = null;
+      $("app").classList.add("hidden");
+      $("loginScreen").classList.remove("hidden");
     }
 
-    async function checkAdmin(user) {
+    async function verifyAdmin(user) {
       const { data, error } = await db
         .from("admin_users")
         .select("user_id")
@@ -331,26 +1019,26 @@
 
       if (!user) {
         showLogin();
+        setConnection(false, "Non connecté");
         return;
       }
 
       try {
-        await checkAdmin(user);
-        showDashboard(user);
-        await loadMembers();
-        await loadCases();
-        await loadConfig();
-        await loadStats();
+        await verifyAdmin(user);
+        showApp(user);
+        setConnection(true, "Session administrateur");
+        await loadEverything();
       } catch (error) {
         showLogin();
-        status("Accès refusé ou erreur : " + error.message);
         await db.auth.signOut();
+        setLoginStatus("Accès refusé ou erreur de configuration : " +
+          error.message);
       }
     }
 
     $("loginForm").addEventListener("submit", async event => {
       event.preventDefault();
-      status("Connexion en cours…");
+      setLoginStatus("Connexion en cours…");
 
       const { error } = await db.auth.signInWithPassword({
         email: $("email").value.trim(),
@@ -358,113 +1046,177 @@
       });
 
       if (error) {
-        status("Connexion impossible : " + error.message);
+        setLoginStatus("Connexion impossible : " + error.message);
         return;
       }
 
-      await loadSession();
-      if (!$("dashboard").hidden) status("Connexion réussie.");
+      try {
+        await loadSession();
+        if (currentUser) setLoginStatus("");
+      } catch (error) {
+        setLoginStatus("Erreur : " + error.message);
+      }
     });
 
     $("logoutBtn").addEventListener("click", async () => {
       await db.auth.signOut();
       showLogin();
-      status("Déconnecté.");
+      setLoginStatus("Déconnecté.");
     });
 
-    document.querySelectorAll("nav button[data-page]").forEach(button => {
-      button.addEventListener("click", () => {
-        const page = button.dataset.page;
+    document.querySelectorAll(".nav-btn[data-page]").forEach(button => {
+      button.addEventListener("click", () => navigate(button.dataset.page));
+    });
 
-        document.querySelectorAll("#dashboard > section").forEach(section => {
-          section.hidden = section.id !== "page-" + page;
-        });
+    document.querySelectorAll("[data-goto]").forEach(button => {
+      button.addEventListener("click", () => navigate(button.dataset.goto));
+    });
 
-        status("");
+    function navigate(page) {
+      document.querySelectorAll(".page").forEach(section => {
+        section.classList.toggle("hidden", section.id !== "page-" + page);
       });
-    });
 
+      document.querySelectorAll(".nav-btn[data-page]").forEach(button => {
+        button.classList.toggle("active", button.dataset.page === page);
+      });
+
+      const titles = {
+        overview: "Tableau de bord",
+        members: "Gestion des membres",
+        moderation: "Modération",
+        support: "Support du site",
+        dms: "Messages privés Discord",
+        config: "Configuration"
+      };
+
+      $("topTitle").textContent = titles[page] || "MOON Manager";
+      setStatus("");
+    }
+
+    async function loadEverything() {
+      await Promise.allSettled([
+        loadMembers(),
+        loadCases(),
+        loadTickets(),
+        loadDMs(),
+        loadConfig(),
+        loadStats()
+      ]);
+    }
+
+    // MEMBRES
     async function loadMembers() {
       const list = $("membersList");
       list.textContent = "Chargement…";
 
       const { data, error } = await db
         .from("moon_members")
-        .select("id, username, notes, created_at")
-        .order("created_at", { ascending: false });
+        .select("id, discord_id, username, notes, created_at")
+        .order("created_at", { ascending: false })
+        .limit(500);
 
       if (error) {
-        list.textContent = "Erreur de chargement : " + error.message;
+        membersCache = [];
+        emptyMessage(list, "Erreur de chargement : " + error.message);
         return;
       }
+
+      membersCache = data || [];
+      renderMembers();
+    }
+
+    function renderMembers() {
+      const list = $("membersList");
+      const query = $("memberSearch").value.trim().toLowerCase();
+
+      const filtered = membersCache.filter(member =>
+        (member.username || "").toLowerCase().includes(query) ||
+        (member.discord_id || "").toLowerCase().includes(query)
+      );
 
       list.replaceChildren();
 
-      if (!data.length) {
-        list.textContent = "Aucun membre enregistré.";
+      if (!filtered.length) {
+        emptyMessage(list, "Aucun membre correspondant.");
         return;
       }
 
-      data.forEach(member => {
-        const record = document.createElement("article");
-        record.className = "record";
+      filtered.forEach(member => {
+        const record = makeElement("article", "record");
+        const top = makeElement("div", "record-top");
+        const left = document.createElement("div");
 
-        const title = document.createElement("strong");
-        title.textContent = member.username;
+        left.append(
+          makeElement("div", "record-title", member.username || "Sans nom"),
+          makeElement("div", "record-meta",
+            "Discord ID : " + (member.discord_id || "Non renseigné")),
+          makeElement("div", "record-meta",
+            "Enregistré le " + formatDate(member.created_at))
+        );
 
-        const notes = document.createElement("p");
-        notes.textContent = member.notes || "Aucune note";
+        top.append(left);
+        record.append(top);
 
-        const remove = document.createElement("button");
-        remove.className = "danger";
-        remove.type = "button";
-        remove.textContent = "Supprimer";
+        if (member.notes) {
+          record.append(makeElement("p", "record-body", member.notes));
+        }
 
-        remove.addEventListener("click", async () => {
-          if (!confirm("Supprimer ce membre de la liste MOON ?")) return;
+        const actions = makeElement("div", "record-actions");
 
-          const { error } = await db
-            .from("moon_members")
-            .delete()
-            .eq("id", member.id);
+        actions.append(createButton("Supprimer la fiche", "btn-danger",
+          async () => {
+            if (!confirm("Supprimer cette fiche de la base MOON ?")) return;
 
-          if (error) {
-            status("Erreur : " + error.message);
-            return;
-          }
+            const { error } = await db
+              .from("moon_members")
+              .delete()
+              .eq("id", member.id);
 
-          status("Membre supprimé.");
-          await loadMembers();
-          await loadStats();
-        });
+            if (error) {
+              setStatus("Suppression impossible : " + error.message);
+              return;
+            }
 
-        record.append(title, notes, remove);
+            setStatus("Fiche supprimée.", true);
+            await loadMembers();
+            await loadStats();
+          }));
+
+        record.append(actions);
         list.append(record);
       });
     }
 
+    $("memberSearch").addEventListener("input", renderMembers);
+    $("refreshMembers").addEventListener("click", loadMembers);
+
     $("memberForm").addEventListener("submit", async event => {
       event.preventDefault();
 
-      const { data: { user } } = await db.auth.getUser();
+      const username = $("memberName").value.trim();
+      const notes = $("memberNotes").value.trim();
+
+      if (!username) return;
 
       const { error } = await db.from("moon_members").insert({
-        username: $("memberName").value.trim(),
-        notes: $("memberNotes").value.trim(),
-        created_by: user.id
+        username,
+        notes: notes || null,
+        created_by: currentUser.id
       });
 
       if (error) {
-        status("Impossible d'ajouter le membre : " + error.message);
+        setStatus("Ajout impossible : " + error.message);
         return;
       }
 
       $("memberForm").reset();
-      status("Membre ajouté.");
+      setStatus("Fiche ajoutée.", true);
       await loadMembers();
       await loadStats();
     });
 
+    // MODÉRATION
     async function loadCases() {
       const list = $("casesList");
       list.textContent = "Chargement…";
@@ -472,82 +1224,333 @@
       const { data, error } = await db
         .from("moon_moderation_cases")
         .select("id, username, reason, status, created_at")
-        .order("created_at", { ascending: false });
+        .order("created_at", { ascending: false })
+        .limit(300);
 
       if (error) {
-        list.textContent = "Erreur de chargement : " + error.message;
+        casesCache = [];
+        emptyMessage(list, "Erreur de chargement : " + error.message);
         return;
       }
+
+      casesCache = data || [];
+      renderCases();
+    }
+
+    function renderCases() {
+      const list = $("casesList");
+      const query = $("caseSearch").value.trim().toLowerCase();
+
+      const filtered = casesCache.filter(item =>
+        (item.username || "").toLowerCase().includes(query) ||
+        (item.reason || "").toLowerCase().includes(query)
+      );
 
       list.replaceChildren();
 
-      if (!data.length) {
-        list.textContent = "Aucun dossier de modération.";
+      if (!filtered.length) {
+        emptyMessage(list, "Aucun dossier correspondant.");
         return;
       }
 
-      data.forEach(item => {
-        const record = document.createElement("article");
-        record.className = "record";
+      filtered.forEach(item => {
+        const record = makeElement("article", "record");
+        const top = makeElement("div", "record-top");
+        const left = document.createElement("div");
 
-        const title = document.createElement("strong");
-        title.textContent = item.username + " — " + item.status;
+        left.append(
+          makeElement("div", "record-title", item.username),
+          makeElement("div", "record-meta", formatDate(item.created_at))
+        );
 
-        const reason = document.createElement("p");
-        reason.textContent = item.reason;
+        top.append(left, badge(
+          item.status === "open" ? "Ouvert" : "Fermé",
+          item.status === "open" ? "red" : "green"
+        ));
 
-        const toggle = document.createElement("button");
-        toggle.className = "secondary";
-        toggle.type = "button";
-        toggle.textContent =
-          item.status === "open" ? "Fermer le dossier" : "Rouvrir le dossier";
+        record.append(top, makeElement("p", "record-body", item.reason));
 
-        toggle.addEventListener("click", async () => {
-          const nextStatus = item.status === "open" ? "closed" : "open";
+        record.append(createButton(
+          item.status === "open" ? "Fermer le dossier" : "Rouvrir le dossier",
+          "",
+          async () => {
+            const nextStatus = item.status === "open" ? "closed" : "open";
 
-          const { error } = await db
-            .from("moon_moderation_cases")
-            .update({ status: nextStatus })
-            .eq("id", item.id);
+            const { error } = await db
+              .from("moon_moderation_cases")
+              .update({ status: nextStatus })
+              .eq("id", item.id);
 
-          if (error) {
-            status("Erreur : " + error.message);
-            return;
+            if (error) {
+              setStatus("Modification impossible : " + error.message);
+              return;
+            }
+
+            setStatus("Dossier mis à jour.", true);
+            await loadCases();
+            await loadStats();
           }
+        ));
 
-          status("Dossier mis à jour.");
-          await loadCases();
-          await loadStats();
-        });
-
-        record.append(title, reason, toggle);
         list.append(record);
       });
     }
 
+    $("caseSearch").addEventListener("input", renderCases);
+    $("refreshCases").addEventListener("click", loadCases);
+
     $("caseForm").addEventListener("submit", async event => {
       event.preventDefault();
-
-      const { data: { user } } = await db.auth.getUser();
 
       const { error } = await db.from("moon_moderation_cases").insert({
         username: $("caseMember").value.trim(),
         reason: $("caseReason").value.trim(),
         status: $("caseStatus").value,
-        created_by: user.id
+        created_by: currentUser.id
       });
 
       if (error) {
-        status("Impossible de créer le dossier : " + error.message);
+        setStatus("Création impossible : " + error.message);
         return;
       }
 
       $("caseForm").reset();
-      status("Dossier créé.");
+      setStatus("Dossier créé.", true);
       await loadCases();
       await loadStats();
     });
 
+    // TICKETS SUPPORT
+    async function loadTickets() {
+      const list = $("ticketsList");
+      list.textContent = "Chargement…";
+
+      const { data, error } = await db
+        .from("moon_support_tickets")
+        .select("id, name, email, subject, message, status, admin_reply, created_at")
+        .order("created_at", { ascending: false })
+        .limit(300);
+
+      if (error) {
+        ticketsCache = [];
+        emptyMessage(list, "Tickets indisponibles : " + error.message);
+        return;
+      }
+
+      ticketsCache = data || [];
+      renderTickets();
+    }
+
+    function renderTickets() {
+      const list = $("ticketsList");
+      const query = $("ticketSearch").value.trim().toLowerCase();
+      const filter = $("ticketFilter").value;
+
+      const filtered = ticketsCache.filter(ticket => {
+        const matchesQuery =
+          [ticket.name, ticket.email, ticket.subject, ticket.message]
+            .some(value => (value || "").toLowerCase().includes(query));
+
+        return matchesQuery && (filter === "all" || ticket.status === filter);
+      });
+
+      list.replaceChildren();
+
+      if (!filtered.length) {
+        emptyMessage(list, "Aucun ticket correspondant.");
+        return;
+      }
+
+      filtered.forEach(ticket => {
+        const record = makeElement("article", "record");
+        const top = makeElement("div", "record-top");
+        const left = document.createElement("div");
+
+        left.append(
+          makeElement("div", "record-title", ticket.subject),
+          makeElement("div", "record-meta",
+            ticket.name + " · " + ticket.email + " · " +
+            formatDate(ticket.created_at))
+        );
+
+        top.append(left, badge(
+          ticket.status === "open" ? "Ouvert" : "Fermé",
+          ticket.status === "open" ? "red" : "green"
+        ));
+
+        record.append(top, makeElement("p", "record-body", ticket.message));
+
+        if (ticket.admin_reply) {
+          record.append(makeElement(
+            "p", "record-body", "Réponse enregistrée : " + ticket.admin_reply
+          ));
+        }
+
+        const actions = makeElement("div", "record-actions");
+
+        actions.append(createButton(
+          ticket.status === "open" ? "Fermer" : "Rouvrir",
+          "",
+          async () => {
+            const nextStatus = ticket.status === "open" ? "closed" : "open";
+
+            const { error } = await db
+              .from("moon_support_tickets")
+              .update({ status: nextStatus })
+              .eq("id", ticket.id);
+
+            if (error) {
+              setStatus("Modification impossible : " + error.message);
+              return;
+            }
+
+            setStatus("Ticket mis à jour.", true);
+            await loadTickets();
+            await loadStats();
+          }
+        ));
+
+        actions.append(createButton("Répondre par e-mail", "",
+          () => {
+            const subject = encodeURIComponent("Re: " + ticket.subject);
+            const body = encodeURIComponent(
+              "\n\n--- Demande MOON ---\n" + ticket.message
+            );
+
+            // Ouvre le logiciel de messagerie du navigateur.
+            // Ce bouton n'envoie pas directement le message.
+            location.href = "mailto:" + encodeURIComponent(ticket.email) +
+              "?subject=" + subject + "&body=" + body;
+          }));
+
+        record.append(actions);
+        list.append(record);
+      });
+    }
+
+    $("ticketSearch").addEventListener("input", renderTickets);
+    $("ticketFilter").addEventListener("change", renderTickets);
+    $("refreshTickets").addEventListener("click", loadTickets);
+
+    // DM DISCORD
+    async function loadDMs() {
+      const list = $("dmsList");
+      list.textContent = "Chargement…";
+
+      const { data, error } = await db
+        .from("moon_bot_dms")
+        .select("id, discord_message_id, discord_user_id, username, message, status, received_at")
+        .order("received_at", { ascending: false })
+        .limit(300);
+
+      if (error) {
+        dmsCache = [];
+        emptyMessage(list, "DM indisponibles : " + error.message);
+        return;
+      }
+
+      dmsCache = data || [];
+      renderDMs();
+    }
+
+    function renderDMs() {
+      const list = $("dmsList");
+      const query = $("dmSearch").value.trim().toLowerCase();
+      const filter = $("dmFilter").value;
+
+      const filtered = dmsCache.filter(dm => {
+        const matchesQuery =
+          (dm.username || "").toLowerCase().includes(query) ||
+          (dm.discord_user_id || "").includes(query) ||
+          (dm.message || "").toLowerCase().includes(query);
+
+        return matchesQuery && (filter === "all" || dm.status === filter);
+      });
+
+      list.replaceChildren();
+
+      if (!filtered.length) {
+        emptyMessage(list,
+          "Aucun DM enregistré. Vérifie que le bot enregistre les messages.");
+        return;
+      }
+
+      filtered.forEach(dm => {
+        const record = makeElement("article", "record");
+        const top = makeElement("div", "record-top");
+        const left = document.createElement("div");
+
+        left.append(
+          makeElement("div", "record-title", dm.username),
+          makeElement("div", "record-meta",
+            "Discord ID : " + dm.discord_user_id + " · " +
+            formatDate(dm.received_at))
+        );
+
+        top.append(left, badge(
+          dm.status,
+          dm.status === "new" ? "red" :
+            dm.status === "answered" ? "green" : "yellow"
+        ));
+
+        record.append(top, makeElement("p", "record-body", dm.message));
+
+        const actions = makeElement("div", "record-actions");
+
+        if (dm.status === "new") {
+          actions.append(createButton("Marquer comme lu", "",
+            async () => {
+              const { error } = await db
+                .from("moon_bot_dms")
+                .update({ status: "read" })
+                .eq("id", dm.id);
+
+              if (error) {
+                setStatus("Modification impossible : " + error.message);
+                return;
+              }
+
+              await loadDMs();
+              await loadStats();
+            }));
+        }
+
+        actions.append(createButton("Préparer une réponse", "",
+          async () => {
+            const reply = prompt(
+              "Réponse à préparer pour " + dm.username + " :"
+            );
+
+            if (reply === null || !reply.trim()) return;
+
+            const { error } = await db.from("moon_bot_dm_replies").insert({
+              dm_id: dm.id,
+              reply: reply.trim(),
+              created_by: currentUser.id,
+              status: "pending"
+            });
+
+            if (error) {
+              setStatus("Impossible de préparer la réponse : " + error.message);
+              return;
+            }
+
+            setStatus(
+              "Réponse mise en attente. Le bot doit encore la traiter.",
+              true
+            );
+          }));
+
+        record.append(actions);
+        list.append(record);
+      });
+    }
+
+    $("dmSearch").addEventListener("input", renderDMs);
+    $("dmFilter").addEventListener("change", renderDMs);
+    $("refreshDMs").addEventListener("click", loadDMs);
+
+    // CONFIGURATION DU SITE
     async function loadConfig() {
       const { data, error } = await db
         .from("moon_site_settings")
@@ -556,7 +1559,7 @@
         .maybeSingle();
 
       if (error) {
-        status("Configuration : " + error.message);
+        setStatus("Configuration indisponible : " + error.message);
         return;
       }
 
@@ -586,47 +1589,68 @@
         }, { onConflict: "key" });
 
       if (error) {
-        status("Impossible d'enregistrer : " + error.message);
+        setStatus("Enregistrement impossible : " + error.message);
         return;
       }
 
-      status("Configuration enregistrée dans la base de données.");
+      setStatus("Configuration enregistrée.", true);
     });
 
+    // STATISTIQUES
+    async function countRows(table, applyFilter) {
+      let query = db.from(table).select("id", {
+        count: "exact",
+        head: true
+      });
+
+      if (applyFilter) query = applyFilter(query);
+
+      return query;
+    }
+
     async function loadStats() {
-      const [members, cases, openCases] = await Promise.all([
-        db.from("moon_members").select("id", { count: "exact", head: true }),
-        db.from("moon_moderation_cases").select("id", { count: "exact", head: true }),
-        db.from("moon_moderation_cases")
-          .select("id", { count: "exact", head: true })
-          .eq("status", "open")
+      const results = await Promise.all([
+        countRows("moon_members"),
+        countRows("moon_moderation_cases"),
+        countRows("moon_support_tickets", query =>
+          query.eq("status", "open")),
+        countRows("moon_bot_dms", query =>
+          query.eq("status", "new"))
       ]);
 
-      $("memberCount").textContent =
-        members.error ? "Erreur" : members.count ?? 0;
+      const ids = [
+        "statMembers", "statCases", "statTickets", "statDMs"
+      ];
 
-      $("caseCount").textContent =
-        cases.error ? "Erreur" : cases.count ?? 0;
+      results.forEach((result, index) => {
+        const { count, error } = result;
+        $(ids[index]).textContent =
+          error ? "—" : (count ?? 0);
+      });
 
-      $("openCaseCount").textContent =
-        openCases.error ? "Erreur" : openCases.count ?? 0;
-
-      if (members.error || cases.error || openCases.error) {
-        status("Certaines statistiques sont indisponibles. Vérifie les tables et leurs permissions.");
+      if (results.some(result => result.error)) {
+        setStatus(
+          "Certaines statistiques sont indisponibles. Vérifie les tables et les permissions."
+        );
       }
     }
 
-    $("refreshMembers").addEventListener("click", loadMembers);
-    $("refreshCases").addEventListener("click", loadCases);
-    $("refreshStats").addEventListener("click", loadStats);
+    $("refreshAll").addEventListener("click", loadEverything);
+    $("refreshDMs").addEventListener("click", loadDMs);
 
     db.auth.onAuthStateChange(() => {
-      setTimeout(() => loadSession(), 0);
+      setTimeout(() => {
+        loadSession().catch(error => {
+          setConnection(false, "Erreur de session");
+          setLoginStatus(error.message);
+        });
+      }, 0);
     });
 
     loadSession().catch(error => {
       showLogin();
-      status("Erreur au démarrage : " + error.message);
+      setConnection(false, "Connexion indisponible");
+      setLoginStatus("Erreur au démarrage : " + error.message);
     });
   </script>
 </body>
