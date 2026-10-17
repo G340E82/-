@@ -1,154 +1,109 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>MOON — Administration</title>
+  <title>MOON Admin</title>
+
   <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b0912;
+      --panel: #15111f;
+      --border: #30243f;
+      --purple: #a855f7;
+      --text: #f4efff;
+      --muted: #aaa0bd;
+    }
+
     * { box-sizing: border-box; }
+
     body {
       margin: 0;
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      padding: 20px;
-      background: #08070d;
-      color: #f5f0ff;
+      background: var(--bg);
+      color: var(--text);
       font-family: Arial, sans-serif;
     }
-    .panel {
-      width: 100%;
-      max-width: 390px;
-      padding: 30px;
-      background: #12101b;
-      border: 1px solid #49306e;
-      border-radius: 18px;
-      box-shadow: 0 0 35px #6d28d922;
+
+    .container {
+      width: min(1100px, 92%);
+      margin: 35px auto;
     }
-    h1 { text-align: center; margin-top: 0; }
-    p { color: #bcb4ce; text-align: center; }
-    label { display: block; margin: 16px 0 7px; }
-    input {
+
+    h1 { margin-bottom: 8px; }
+    .muted { color: var(--muted); }
+
+    .panel, .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      margin: 16px 0;
+    }
+
+    input, select, button {
       width: 100%;
       padding: 12px;
+      margin: 7px 0;
       border-radius: 8px;
-      border: 1px solid #49306e;
-      background: #090811;
-      color: white;
-      font-size: 16px;
+      border: 1px solid var(--border);
+      background: #0f0b18;
+      color: var(--text);
+      font-size: 15px;
     }
+
     button {
-      width: 100%;
-      margin-top: 18px;
-      padding: 12px;
-      border: 0;
-      border-radius: 8px;
-      background: #8b5cf6;
+      cursor: pointer;
+      background: var(--purple);
+      border-color: var(--purple);
       color: white;
       font-weight: bold;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    button:hover { background: #7542df; }
-    #status { margin-top: 16px; overflow-wrap: anywhere; }
-    #dashboard { display: none; }
-  </style>
-</head>
-<body>
-  <main class="panel">
-    <h1>🌙 MOON ADMIN</h1>
-    <p>Connexion sécurisée au tableau de bord</p>
-
-    <form id="loginForm">
-      <label for="email">E-mail</label>
-      <input id="email" type="email" autocomplete="username" required>
-
-      <label for="password">Mot de passe</label>
-      <input id="password" type="password"
-             autocomplete="current-password" required>
-
-      <button type="submit">Se connecter</button>
-    </form>
-
-    <section id="dashboard">
-      <h2>Bienvenue dans l’administration</h2>
-      <p id="account"></p>
-      <button id="logout" type="button">Se déconnecter</button>
-    </section>
-
-    <p id="status" role="status" aria-live="polite"></p>
-  </main>
-
-  <script type="module">
-    import { createClient } from
-      "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-
-    const supabase = createClient(
-      "https://uhpveiqgaharvwbqncre.supabase.co",
-      "sb_publishable_dm5DWX672NZGeZPd3FkXQA_b5DxWzat"
-    );
-
-    const form = document.querySelector("#loginForm");
-    const dashboard = document.querySelector("#dashboard");
-    const status = document.querySelector("#status");
-
-    async function checkSession() {
-      const { data, error } = await supabase.auth.getUser();
-
-      if (error || !data.user) {
-        form.style.display = "block";
-        dashboard.style.display = "none";
-        return;
-      }
-
-      const { data: admin, error: adminError } = await supabase
-        .from("admin_users")
-        .select("user_id")
-        .eq("user_id", data.user.id)
-        .maybeSingle();
-
-      if (adminError || !admin) {
-        await supabase.auth.signOut();
-        form.style.display = "block";
-        dashboard.style.display = "none";
-        status.textContent = "Accès refusé : compte non administrateur.";
-        return;
-      }
-
-      form.style.display = "none";
-      dashboard.style.display = "block";
-      document.querySelector("#account").textContent = data.user.email;
-      status.textContent = "Accès administrateur confirmé.";
     }
 
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault();
-      status.textContent = "Connexion en cours…";
+    button.secondary { background: #251a35; }
+    button:focus-visible, input:focus-visible {
+      outline: 2px solid #d8b4fe;
+      outline-offset: 2px;
+    }
 
-      const { error } = await supabase.auth.signInWithPassword({
-        email: document.querySelector("#email").value,
-        password: document.querySelector("#password").value
-      });
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 22px 0;
+    }
 
-      if (error) {
-        status.textContent = "Connexion impossible. Vérifie tes identifiants.";
-        return;
-      }
+    nav button {
+      width: auto;
+      flex: 1 1 150px;
+    }
 
-      await checkSession();
-    });
+    section[hidden] { display: none; }
 
-    document.querySelector("#logout").addEventListener("click", async () => {
-      await supabase.auth.signOut();
-      status.textContent = "Déconnexion effectuée.";
-      await checkSession();
-    });
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 14px;
+    }
 
-    supabase.auth.onAuthStateChange(() => {
-      checkSession();
-    });
+    .card strong {
+      display: block;
+      font-size: 25px;
+      margin-top: 12px;
+    }
 
-    await checkSession();
-  </script>
-</body>
-</html>
+    #status {
+      min-height: 24px;
+      overflow-wrap: anywhere;
+    }
+
+    .notice {
+      padding: 12px;
+      border-left: 3px solid var(--purple);
+      background: #1b1427;
+      border-radius: 5px;
+    }
+
+    @media (max-width: 600px) {
+      .container { margin: 
