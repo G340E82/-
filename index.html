@@ -447,9 +447,28 @@
     <span>© <span id="year"></span> MOON</span>
   </footer>
 
-  <script>
-    document.getElementById("year").textContent =
-      new Date().getFullYear();
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  document.getElementById("year").textContent =
+    new Date().getFullYear();
+
+  const supabaseClient = window.supabase.createClient(
+    "https://uhpveiqgaharvwbqncre.supabase.co",
+    "sb_publishable_dm5DWX672NZGeZPd3FkXQA_b5DxWzat"
+  );
+
+  document.getElementById("discordLogin").addEventListener("click", async (event) => {
+    event.preventDefault();
+
+    const { error } = await supabaseClient.auth.signInWithOAuth({
+      provider: "discord",
+      options: {
+        redirectTo: "https://moon-manager.pages.dev"
+      }
+    });
+
+    if (error) alert("Erreur : " + error.message);
+  });
+</script>
 </body>
 </html>
