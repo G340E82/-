@@ -1363,11 +1363,11 @@
       }
 
       if (target.dataset.replyDm) {
-        replyToDM(Number(target.dataset.replyDm));
+        replyToDM(target.dataset.replyDm);
       }
 
       if (target.dataset.dmStatus) {
-        updateDMStatus(Number(target.dataset.dmStatus), target.dataset.status);
+        updateDMStatus(target.dataset.dmStatus, target.dataset.status);
       }
     });
 
