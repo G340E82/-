@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -88,7 +89,8 @@
       letter-spacing: 2px;
     }
 
-    .logo span {
+    .logo span,
+    h1 span {
       color: var(--purple);
     }
 
@@ -162,7 +164,6 @@
     }
 
     h1 span {
-      color: var(--purple);
       text-shadow: 0 0 45px rgba(168, 85, 247, .25);
     }
 
@@ -273,6 +274,10 @@
     }
 
     @media (max-width: 700px) {
+      nav {
+        flex-wrap: wrap;
+      }
+
       .links {
         gap: 12px;
       }
@@ -307,7 +312,10 @@
       <div class="links">
         <a href="#about">À propos</a>
         <a href="#domains">Univers</a>
-        <a class="button nav-join" href="https://discord.gg/Czs4bTjP" target="_blank" rel="noopener noreferrer">
+        <a class="button nav-join"
+           href="https://discord.gg/Czs4bTjP"
+           target="_blank"
+           rel="noopener noreferrer">
           Discord ↗
         </a>
       </div>
@@ -327,16 +335,23 @@
       </p>
 
       <div class="actions">
-        <a class="button" href="https://discord.gg/Czs4bTjP" target="_blank" rel="noopener noreferrer">
+        <a class="button"
+           href="https://discord.gg/Czs4bTjP"
+           target="_blank"
+           rel="noopener noreferrer">
           🌙 Rejoindre MOON
         </a>
-        <a class="button secondary" href="#about">Découvrir le projet ↓</a>
+
+        <a class="button secondary" href="#about">
+          Découvrir le projet ↓
+        </a>
       </div>
     </section>
 
     <section class="section" id="about">
       <div class="eyebrow">La communauté</div>
       <h2>Plus qu'un serveur Discord.</h2>
+
       <p class="intro">
         MOON rassemble des passionnés autour du gaming,
         de l'analyse de données publiques et de la technologie.
@@ -367,6 +382,7 @@
     <section class="section" id="domains">
       <div class="eyebrow">Nos univers</div>
       <h2>Explore MOON.</h2>
+
       <p class="intro">
         Plusieurs centres d'intérêt réunis dans un même espace.
       </p>
@@ -383,9 +399,7 @@
           <h3>OSINT</h3>
           <p>Découverte des sources publiques et méthodes de recherche responsables.</p>
         </article>
-<a class="button" href="https://discord.gg/Czs4bTjP" target="_blank" rel="noopener noreferrer">
-  Rejoindre le Discord ↗
-</a>
+
         <article class="card">
           <div class="icon">💻</div>
           <h3>Technologie</h3>
@@ -398,12 +412,26 @@
       <div class="join">
         <div class="eyebrow">Ta place est ici</div>
         <h2>Rejoins l'univers MOON.</h2>
+
         <p>
           Viens découvrir la communauté et participer à son évolution.
         </p>
-        <a class="button" href="https://discord.gg/Czs4bTjP" target="_blank" rel="noopener noreferrer">
-          Rejoindre le Discord ↗
-        </a>
+
+        <div class="actions">
+          <a class="button"
+             href="https://discord.gg/Czs4bTjP"
+             target="_blank"
+             rel="noopener noreferrer">
+            🌙 Rejoindre le Discord ↗
+          </a>
+
+          <a class="button secondary"
+             href="https://www.tiktok.com/@moon.11646"
+             target="_blank"
+             rel="noopener noreferrer">
+            🎵 TikTok MOON ↗
+          </a>
+        </div>
       </div>
     </section>
   </main>
@@ -415,7 +443,10 @@
   </footer>
 
   <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
   </script>
 </body>
 </html>
+```
+
