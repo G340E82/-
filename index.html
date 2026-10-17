@@ -1,1 +1,419 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#08070d">
+  <meta name="description" content="MOON — Gaming, OSINT et cybersécurité. Rejoins notre communauté Discord.">
+  <title>MOON — Community</title>
 
+  <style>
+    :root {
+      --bg: #08070d;
+      --panel: #110e1b;
+      --purple: #a855f7;
+      --light: #d8b4fe;
+      --text: #f5f3ff;
+      --muted: #aaa3ba;
+      --border: rgba(168, 85, 247, .2);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .glow {
+      position: fixed;
+      width: 350px;
+      height: 350px;
+      border-radius: 50%;
+      background: #7c3aed;
+      filter: blur(150px);
+      opacity: .12;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .glow.one {
+      top: 5%;
+      left: -200px;
+    }
+
+    .glow.two {
+      top: 45%;
+      right: -230px;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(8, 7, 13, .85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav {
+      max-width: 1100px;
+      margin: auto;
+      padding: 18px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: 2px;
+    }
+
+    .logo span {
+      color: var(--purple);
+    }
+
+    .links {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .links a:hover {
+      color: white;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 22px;
+      border-radius: 10px;
+      background: var(--purple);
+      color: white;
+      font-weight: bold;
+      border: 1px solid transparent;
+      transition: .2s;
+    }
+
+    .button:hover {
+      background: #9333ea;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(168, 85, 247, .2);
+    }
+
+    .button.secondary {
+      background: transparent;
+      border-color: var(--border);
+    }
+
+    .button.secondary:hover {
+      background: var(--panel);
+    }
+
+    .hero {
+      min-height: 78vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 90px 24px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 7px 14px;
+      border: 1px solid var(--border);
+      background: rgba(168, 85, 247, .08);
+      color: var(--light);
+      border-radius: 30px;
+      font-size: 12px;
+      letter-spacing: 1px;
+      margin-bottom: 28px;
+    }
+
+    h1 {
+      font-size: clamp(58px, 12vw, 110px);
+      font-weight: 900;
+      letter-spacing: -5px;
+      line-height: 1.1;
+    }
+
+    h1 span {
+      color: var(--purple);
+      text-shadow: 0 0 45px rgba(168, 85, 247, .25);
+    }
+
+    .hero p {
+      max-width: 570px;
+      margin: 25px auto 30px;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .section {
+      max-width: 1100px;
+      margin: auto;
+      padding: 75px 24px;
+    }
+
+    .eyebrow {
+      color: var(--purple);
+      font-size: 12px;
+      font-weight: bold;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      font-size: clamp(30px, 5vw, 44px);
+      line-height: 1.2;
+      margin: 12px 0;
+    }
+
+    .intro {
+      color: var(--muted);
+      max-width: 600px;
+      margin-bottom: 32px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: linear-gradient(145deg, #151020, #0c0a12);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 27px;
+      transition: .25s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(168, 85, 247, .65);
+    }
+
+    .icon {
+      font-size: 29px;
+      margin-bottom: 15px;
+    }
+
+    .card h3 {
+      margin-bottom: 8px;
+      font-size: 19px;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .join {
+      text-align: center;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 55px 24px;
+      background: radial-gradient(ellipse at top, #241333, #100c17 65%);
+    }
+
+    .join p {
+      color: var(--muted);
+      margin: 15px auto 25px;
+      max-width: 480px;
+    }
+
+    footer {
+      max-width: 1100px;
+      margin: auto;
+      padding: 25px 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    footer strong {
+      color: var(--light);
+    }
+
+    @media (max-width: 700px) {
+      .links {
+        gap: 12px;
+      }
+
+      .links .nav-join {
+        display: none;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        letter-spacing: -3px;
+      }
+
+      .hero {
+        min-height: 70vh;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="glow one"></div>
+  <div class="glow two"></div>
+
+  <header>
+    <nav>
+      <a href="#home" class="logo">🌙 MOON<span>.</span></a>
+
+      <div class="links">
+        <a href="#about">À propos</a>
+        <a href="#domains">Univers</a>
+        <a class="button nav-join" href="https://discord.gg/Czs4bTjP" target="_blank" rel="noopener noreferrer">
+          Discord ↗
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="badge">✦ GAMING · OSINT · CYBER</div>
+
+      <h1>WELCOME TO<br><span>MOON.</span></h1>
+
+      <p>
+        Une communauté, plusieurs univers.
+        Découvre MOON, rencontre de nouvelles personnes
+        et partage tes passions dans une ambiance unique.
+      </p>
+
+      <div class="actions">
+        <a class="button" href="https://discord.gg/Czs4bTjP" target="_blank" rel="noopener noreferrer">
+          🌙 Rejoindre MOON
+        </a>
+        <a class="button secondary" href="#about">Découvrir le projet ↓</a>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="eyebrow">La communauté</div>
+      <h2>Plus qu'un serveur Discord.</h2>
+      <p class="intro">
+        MOON rassemble des passionnés autour du gaming,
+        de l'analyse de données publiques et de la technologie.
+        Un espace pour apprendre, échanger et progresser ensemble.
+      </p>
+
+      <div class="grid">
+        <article class="card">
+          <div class="icon">🌙</div>
+          <h3>Une communauté</h3>
+          <p>Discute, rencontre des membres et participe à la vie du serveur.</p>
+        </article>
+
+        <article class="card">
+          <div class="icon">🛡️</div>
+          <h3>Un espace sécurisé</h3>
+          <p>Des règles claires pour favoriser les échanges respectueux.</p>
+        </article>
+
+        <article class="card">
+          <div class="icon">⚡</div>
+          <h3>De nouveaux projets</h3>
+          <p>Des ressources, des événements et des idées à développer ensemble.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="domains">
+      <div class="eyebrow">Nos univers</div>
+      <h2>Explore MOON.</h2>
+      <p class="intro">
+        Plusieurs centres d'intérêt réunis dans un même espace.
+      </p>
+
+      <div class="grid">
+        <article class="card">
+          <div class="icon">🎮</div>
+          <h3>Gaming</h3>
+          <p>Jeux vidéo, discussions, partage d'expériences et événements.</p>
+        </article>
+
+        <article class="card">
+          <div class="icon">🔎</div>
+          <h3>OSINT</h3>
+          <p>Découverte des sources publiques et méthodes de recherche responsables.</p>
+        </article>
+
+        <article class="card">
+          <div class="icon">💻</div>
+          <h3>Technologie</h3>
+          <p>Informatique, outils numériques et apprentissage de la cybersécurité.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="join">
+        <div class="eyebrow">Ta place est ici</div>
+        <h2>Rejoins l'univers MOON.</h2>
+        <p>
+          Viens découvrir la communauté et participer à son évolution.
+        </p>
+        <a class="button" href="https://discord.gg/Czs4bTjP" target="_blank" rel="noopener noreferrer">
+          Rejoindre le Discord ↗
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <strong>🌙 MOON</strong>
+    <span>Gaming · OSINT · Technologie</span>
+    <span>© <span id="year"></span> MOON</span>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
