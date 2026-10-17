@@ -919,8 +919,7 @@
     const SUPABASE_URL =
       "https://uhpveiqgaharvwbqncre.supabase.co";
 
-    const SUPABASE_KEY =
-      "sb_publishable_dm5DWX672GeZPd3FkXQA_b5DxWzat";
+    const SUPABASE_KEY = "sb_publishable_dm5DWX672NZGeZPd3FkXQA_b5DxWzat";
 
     const db = window.supabase.createClient(
       SUPABASE_URL,
@@ -1001,13 +1000,13 @@
     }
 
     async function verifyAdmin(user) {
-      const { data, error } = await db
-        .from("admin_users")
-        .select("user_id")
-        .eq("user_id", user.id)
-        .maybeSingle();
+  const { data, error } = await db
+    .from("admin_users")
+    .select("email")
+    .eq("email", user.email)
+    .maybeSingle();
 
-      if (error) throw error;
+  if (error) throw error;
       if (!data) throw new Error("Ce compte n'est pas administrateur.");
     }
 
@@ -1200,10 +1199,9 @@
       if (!username) return;
 
       const { error } = await db.from("moon_members").insert({
-        username,
-        notes: notes || null,
-        created_by: currentUser.id
-      });
+  username,
+  notes: notes || null
+});
 
       if (error) {
         setStatus("Ajout impossible : " + error.message);
