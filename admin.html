@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MOON — Administration</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      background: #08070d;
+      color: #f5f0ff;
+      font-family: Arial, sans-serif;
+    }
+    .panel {
+      width: 100%;
+      max-width: 390px;
+      padding: 30px;
+      background: #12101b;
+      border: 1px solid #49306e;
+      border-radius: 18px;
+      box-shadow: 0 0 35px #6d28d922;
+    }
+    h1 { text-align: center; margin-top: 0; }
+    p { color: #bcb4ce; text-align: center; }
+    label { display: block; margin: 16px 0 7px; }
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #49306e;
+      background: #090811;
+      color: white;
+      font-size: 16px;
+    }
+    button {
+      width: 100%;
+      margin-top: 18px;
+      padding: 12px;
+      border: 0;
+      border-radius: 8px;
+      background: #8b5cf6;
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover { background: #7542df; }
+    #status { margin-top: 16px; overflow-wrap: anywhere; }
+    #dashboard { display: none; }
+  </style>
+</head>
+<body>
+  <main class="panel">
+    <h1>🌙 MOON ADMIN</h1>
+    <p>Connexion sécurisée au tableau de bord</p>
+
+    <form id="loginForm">
+      <label for="email">E-mail</label>
+      <input id="email" type="email" autocomplete="username" required>
+
+      <label for="password">Mot de passe</label>
+      <input id="password" type="password"
+             autocomplete="current-password" required>
+
+      <button type="submit">Se connecter</button>
+    </form>
+
+    <section id="dashboard">
+      <h2>Bienvenue dans l’administration</h2>
+      <p id="account"></p>
+      <button id="logout" type="button">Se déconnecter</button>
+    </section>
+
+    <p id="status" role="status" aria-live="polite"></p>
+  </main>
+
+  <script type="module">
+    import { createClient } from
+      "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+    const supabase = createClient(
+      "https://uhpveiqgaharvwbqncre.supabase.co",
+      "sb_publishable_dm5DWX672NZGeZPd3FkXQA_b5DxWzat"
+    );
+
+    const form = document.querySelector("#loginForm");
+    const dashboard = document.querySelector("#dashboard");
+    const status = document.querySelector("#status");
+
+    async function checkSession() {
+      const { data, error } = await supabase.auth.getUser();
+
+      if (error || !data.user) {
+        form.style.display = "block";
+        dashboard.style.display = "none";
+        return;
+      }
+
+      const { data: admin, error: adminError } = await supabase
+        .from("admin_users")
+        .select("user_id")
+        .eq("user_id", data.user.id)
+        .maybeSingle();
+
+      if (adminError || !admin) {
+        await supabase.auth.signOut();
+        form.style.display = "block";
+        dashboard.style.display = "none";
+        status.textContent = "Accès refusé : compte non administrateur.";
+        return;
+      }
+
+      form.style.display = "none";
+      dashboard.style.display = "block";
+      document.querySelector("#account").textContent = data.user.email;
+      status.textContent = "Accès administrateur confirmé.";
+    }
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      status.textContent = "Connexion en cours…";
+
+      const { error } = await supabase.auth.signInWithPassword({
+        email: document.querySelector("#email").value,
+        password: document.querySelector("#password").value
+      });
+
+      if (error) {
+        status.textContent = "Connexion impossible. Vérifie tes identifiants.";
+        return;
+      }
+
+      await checkSession();
+    });
+
+    document.querySelector("#logout").addEventListener("click", async () => {
+      await supabase.auth.signOut();
+      status.textContent = "Déconnexion effectuée.";
+      await checkSession();
+    });
+
+    supabase.auth.onAuthStateChange(() => {
+      checkSession();
+    });
+
+    await checkSession();
+  </script>
+</body>
+</html>
