@@ -1,474 +1,342 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#08070d">
-  <meta name="description" content="MOON — Gaming, OSINT et cybersécurité. Rejoins notre communauté Discord.">
-  <title>MOON — Community</title>
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fffaff">
+  <meta name="description" content="MOON, une communauté gaming et technologie avec une touche de sakura.">
+  <title>MOON — Communauté</title>
   <style>
     :root {
-      --bg: #08070d;
-      --panel: #110e1b;
-      --purple: #a855f7;
-      --light: #d8b4fe;
-      --text: #f5f3ff;
-      --muted: #aaa3ba;
-      --border: rgba(168, 85, 247, .2);
+      color-scheme: light;
+      --bg: #fffaff;
+      --surface: #ffffff;
+      --surface-soft: #f8f4ff;
+      --ink: #32204f;
+      --muted: #786a91;
+      --line: #e8def6;
+      --accent: #6d28d9;
+      --accent-soft: #eadcff;
+      --pink: #f3bad7;
+      --pink-soft: #fff0f7;
+      --green: #16803d;
+      --shadow: 0 22px 60px #48216f12;
     }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 90px; }
     body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: Arial, Helvetica, sans-serif;
-      line-height: 1.6;
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse at 92% 10%, #f1e6ffb5 0, transparent 30%),
+        radial-gradient(ellipse at 4% 36%, #fff0f7b8 0, transparent 24%),
+        var(--bg);
+      font: 16px/1.65 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
       overflow-x: hidden;
     }
-
-    a {
-      color: inherit;
-      text-decoration: none;
+    a { color: inherit; text-decoration: none; }
+    button, input, textarea { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    .wrap { width: min(1160px, 92%); margin-inline: auto; }
+    .top {
+      position: sticky; top: 0; z-index: 20;
+      border-bottom: 1px solid var(--line);
+      background: color-mix(in srgb, var(--bg) 90%, white 10%);
+      backdrop-filter: blur(18px);
     }
-
-    .glow {
-      position: fixed;
-      width: 350px;
-      height: 350px;
-      border-radius: 50%;
-      background: #7c3aed;
-      filter: blur(150px);
-      opacity: .12;
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    .glow.one {
-      top: 5%;
-      left: -200px;
-    }
-
-    .glow.two {
-      top: 45%;
-      right: -230px;
-    }
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background: rgba(8, 7, 13, .85);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-    }
-
-    nav {
-      max-width: 1100px;
-      margin: auto;
-      padding: 18px 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .logo {
-      font-size: 22px;
-      font-weight: 900;
-      letter-spacing: 2px;
-    }
-
-    .logo span,
-    h1 span {
-      color: var(--purple);
-    }
-
-    .links {
-      display: flex;
-      align-items: center;
-      gap: 25px;
-      font-size: 14px;
-      color: var(--muted);
-    }
-
-    .links a:hover {
-      color: white;
-    }
-
-    .button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 12px 22px;
-      border-radius: 10px;
-      background: var(--purple);
-      color: white;
-      font-weight: bold;
-      border: 1px solid transparent;
-      transition: .2s;
-    }
-
-    .button:hover {
-      background: #9333ea;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 30px rgba(168, 85, 247, .2);
-    }
-
-    .button.secondary {
-      background: transparent;
-      border-color: var(--border);
-    }
-
-    .button.secondary:hover {
-      background: var(--panel);
-    }
-
-    .hero {
-      min-height: 78vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 90px 24px;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 7px 14px;
-      border: 1px solid var(--border);
-      background: rgba(168, 85, 247, .08);
-      color: var(--light);
-      border-radius: 30px;
-      font-size: 12px;
-      letter-spacing: 1px;
-      margin-bottom: 28px;
-    }
-
-    h1 {
-      font-size: clamp(58px, 12vw, 110px);
-      font-weight: 900;
-      letter-spacing: -5px;
-      line-height: 1.1;
-    }
-
-    h1 span {
-      text-shadow: 0 0 45px rgba(168, 85, 247, .25);
-    }
-
-    .hero p {
-      max-width: 570px;
-      margin: 25px auto 30px;
-      color: var(--muted);
-      font-size: 17px;
-    }
-
-    .actions {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .section {
-      max-width: 1100px;
-      margin: auto;
-      padding: 75px 24px;
-    }
-
-    .eyebrow {
-      color: var(--purple);
-      font-size: 12px;
-      font-weight: bold;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-    }
-
-    h2 {
-      font-size: clamp(30px, 5vw, 44px);
-      line-height: 1.2;
-      margin: 12px 0;
-    }
-
-    .intro {
-      color: var(--muted);
-      max-width: 600px;
-      margin-bottom: 32px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .card {
-      background: linear-gradient(145deg, #151020, #0c0a12);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 27px;
-      transition: .25s;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(168, 85, 247, .65);
-    }
-
-    .icon {
-      font-size: 29px;
-      margin-bottom: 15px;
-    }
-
-    .card h3 {
-      margin-bottom: 8px;
-      font-size: 19px;
-    }
-
-    .card p {
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .join {
-      text-align: center;
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      padding: 55px 24px;
-      background: radial-gradient(ellipse at top, #241333, #100c17 65%);
-    }
-
-    .join p {
-      color: var(--muted);
-      margin: 15px auto 25px;
-      max-width: 480px;
-    }
-
-    footer {
-      max-width: 1100px;
-      margin: auto;
-      padding: 25px 24px;
-      border-top: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-      flex-wrap: wrap;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    footer strong {
-      color: var(--light);
-    }
-
-    @media (max-width: 700px) {
-      nav {
-        flex-wrap: wrap;
-      }
-
-      .links {
-        gap: 12px;
-      }
-
-      .links .nav-join {
-        display: none;
-      }
-
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
-      h1 {
-        letter-spacing: -3px;
-      }
-
-      .hero {
-        min-height: 70vh;
-      }
-    }
+    .nav { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+    .brand { display: inline-flex; align-items: center; gap: 11px; font-weight: 950; letter-spacing: .12em; flex-shrink: 0; }
+    .brandMark { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 15px; border: 1px solid #e6d5fb; background: linear-gradient(145deg, #fff, #f3e8ff 58%, #ffeaf4); color: var(--accent); }
+    .brandMark svg { width: 28px; height: 28px; }
+    .brand span:last-child { font-size: 1.03rem; }
+    .links { display: flex; align-items: center; gap: 25px; color: var(--muted); font-size: .92rem; }
+    .links a:hover, .links a:focus-visible { color: var(--accent); }
+    .right { display: flex; align-items: center; gap: 10px; }
+    .online { white-space: nowrap; display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 999px; padding: 7px 11px; background: var(--surface); color: var(--muted); font-size: .79rem; }
+    .dot { display: inline-block; width: 8px; height: 8px; margin-right: 7px; border-radius: 50%; background: #4fb87a; box-shadow: 0 0 0 4px #4fb87a1c; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid transparent; border-radius: 13px; padding: 11px 16px; font-weight: 800; cursor: pointer; text-align: center; transition: transform .2s, box-shadow .2s, background .2s; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px solid #b69aef; outline-offset: 3px; }
+    .primary { color: #fff; background: linear-gradient(115deg, var(--accent), #8b5cf6); box-shadow: 0 9px 24px color-mix(in srgb, var(--accent) 22%, transparent); }
+    .ghost { color: var(--accent); background: var(--surface); border-color: var(--line); }
+    .ghost:hover { background: var(--surface-soft); }
+    .hero { padding: 76px 0 88px; }
+    .heroGrid { display: grid; grid-template-columns: 1.02fr .98fr; align-items: center; gap: clamp(28px, 5vw, 68px); }
+    .heroCopy { position: relative; z-index: 1; }
+    .eyebrow, .kicker { display: inline-flex; align-items: center; gap: 8px; color: var(--accent); text-transform: uppercase; letter-spacing: .13em; font-size: .78rem; font-weight: 900; }
+    .eyebrow { padding: 8px 12px; border: 1px solid #e4d4f8; border-radius: 999px; background: #fffdfd; }
+    .eyebrow .flowerDot { color: #d66aab; font-size: 1.1rem; }
+    .hero h1 { margin: 23px 0 18px; font-size: clamp(3.6rem, 8vw, 6.6rem); line-height: .9; letter-spacing: -.075em; }
+    .hero h1 span { display: inline-block; color: var(--accent); background: linear-gradient(95deg, #6d28d9, #9964e7 68%, #c15c9b); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .heroCopy p, .section p { color: var(--muted); line-height: 1.85; }
+    .heroCopy p { max-width: 560px; font-size: 1.06rem; }
+    .actions { display: flex; flex-wrap: wrap; gap: 11px; margin-top: 25px; }
+    .heroNote { margin-top: 23px; display: flex; align-items: center; gap: 9px; color: var(--muted); font-size: .88rem; }
+    .heroNote span { color: #c65b9a; }
+    .botanicalCard { position: relative; min-height: 440px; display: grid; place-items: center; overflow: hidden; padding: 22px; border: 1px solid #e8def6; border-radius: 38px; background: linear-gradient(145deg, #fff 5%, #fbf7ff 57%, #fff0f7); box-shadow: var(--shadow); isolation: isolate; }
+    .botanicalCard:before, .botanicalCard:after { content: ""; position: absolute; width: 165px; height: 165px; border: 1px solid #d8c0f033; border-radius: 50%; z-index: -1; }
+    .botanicalCard:before { left: -70px; top: -70px; }
+    .botanicalCard:after { right: -70px; bottom: -70px; width: 220px; height: 220px; }
+    .branchArt { width: min(100%, 470px); height: auto; display: block; overflow: visible; filter: drop-shadow(0 12px 14px #9b6bb018); }
+    .floralLabel { position: absolute; bottom: 22px; left: 24px; padding: 9px 13px; border: 1px solid #eadcf7; border-radius: 12px; background: #ffffffde; color: var(--muted); font-size: .8rem; backdrop-filter: blur(8px); }
+    .floatingPetal { position: absolute; color: #d58cb9; font-size: 1.3rem; opacity: .8; animation: drift 7s ease-in-out infinite; }
+    .fp1 { left: 12%; top: 16%; }.fp2 { right: 12%; top: 20%; animation-delay: -2s; }.fp3 { right: 17%; bottom: 19%; animation-delay: -4s; }
+    @keyframes drift { 50% { transform: translateY(-10px) rotate(16deg); } }
+    .section { padding: 70px 0; }
+    .sectionHead { max-width: 700px; margin-bottom: 27px; }
+    .section h2 { margin: 11px 0; font-size: clamp(2rem, 5vw, 3.15rem); line-height: 1.1; letter-spacing: -.05em; }
+    .sectionHead p { max-width: 650px; }
+    .two { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+    .panel, .card, .cta { border: 1px solid var(--line); border-radius: 23px; background: color-mix(in srgb, var(--surface) 95%, var(--accent-soft)); box-shadow: 0 12px 38px #48216f08; }
+    .panel { padding: 24px; }
+    .panel h3, .card h3 { margin-top: 0; }
+    .smallFlower { display: inline-grid; place-items: center; width: 43px; height: 43px; border-radius: 14px; border: 1px solid #e7d8f8; background: #fbf5ff; color: var(--accent); font-size: 1.35rem; }
+    .featureList { display: grid; gap: 8px; margin-top: 20px; }
+    .featureItem { display: flex; gap: 12px; align-items: flex-start; padding: 14px; border: 1px solid #eee6f8; border-radius: 16px; background: #fff; }
+    .featureItem b { display: block; margin-bottom: 2px; }
+    .featureItem p { margin: 0; font-size: .9rem; }
+    .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+    .card { position: relative; padding: 23px; overflow: hidden; }
+    .card:after { content: "✿"; position: absolute; right: 10px; top: -10px; font-size: 4.5rem; line-height: 1; color: #e8d9fa; opacity: .48; pointer-events: none; }
+    .card p { margin-bottom: 0; font-size: .94rem; }
+    .field { display: grid; gap: 7px; margin: 13px 0; }
+    .field label { color: var(--ink); font-size: .9rem; font-weight: 750; }
+    .field input, .field textarea { width: 100%; min-width: 0; border: 1px solid #ded2ef; border-radius: 12px; padding: 12px 13px; background: var(--surface); color: var(--ink); }
+    .field textarea { min-height: 124px; resize: vertical; }
+    .field input:focus, .field textarea:focus { border-color: var(--accent); }
+    .status { min-height: 26px; color: var(--accent); overflow-wrap: anywhere; }
+    .muted { color: var(--muted); }
+    .ticketHint { display: block; margin-top: 8px; font-size: .82rem; }
+    .detailedBioPanel { padding: clamp(22px, 4vw, 34px); }
+    .detailedBioText { white-space: pre-line; max-width: 950px; line-height: 1.95; margin-bottom: 0; }
+    .creatorCredit { display: inline-flex; align-items: center; gap: 6px; border: 1px solid #eadcf7; background: #fff; color: var(--accent); border-radius: 999px; padding: 5px 10px; font-weight: 800; }
+    .cta { position: relative; overflow: hidden; text-align: center; padding: 54px 24px; background: linear-gradient(135deg, #fff, #f7f0ff 60%, #fff0f7); }
+    .cta:before { content: "❀"; position: absolute; left: 4%; top: 0; color: #e7c8f1; font-size: 5rem; opacity: .7; transform: rotate(-18deg); }
+    .cta:after { content: "✿"; position: absolute; right: 4%; bottom: -14px; color: #f0c7df; font-size: 5rem; opacity: .65; }
+    .cta h2 { margin: 12px 0; font-size: clamp(2rem, 5vw, 3.1rem); line-height: 1.1; letter-spacing: -.05em; }
+    .cta p { max-width: 650px; margin: 12px auto 22px; }
+    .foot { margin-top: 24px; border-top: 1px solid var(--line); padding: 25px 0; color: var(--muted); font-size: .84rem; }
+    .footInner { display: flex; align-items: center; justify-content: space-between; gap: 13px; flex-wrap: wrap; }
+    .footBrand { display: flex; align-items: center; gap: 8px; }
+    .footSocial a { display: inline-flex; align-items: center; gap: 7px; padding: 8px 12px; border-radius: 999px; background: #f6efff; border: 1px solid #e5d7f7; color: var(--accent); font-weight: 750; }
+    .footSocial a:hover { background: #efe4ff; }
+    [hidden] { display: none !important; }
+    @media(max-width: 860px) { .heroGrid { grid-template-columns: 1fr; } .botanicalCard { min-height: 350px; grid-row: 1; } .heroCopy { grid-row: 2; } .cards { grid-template-columns: 1fr; } .two { grid-template-columns: 1fr; } .hero { padding: 46px 0 62px; } }
+    @media(max-width: 650px) { .links { display: none; } .nav { min-height: 68px; gap: 8px; } .right { gap: 7px; } .online { font-size: .72rem; padding: 6px 8px; } .right .btn { padding: 9px 10px; font-size: .8rem; } .hero h1 { font-size: clamp(3.5rem, 18vw, 5rem); } .botanicalCard { min-height: 290px; border-radius: 27px; padding: 15px; } .section { padding: 48px 0; } .panel, .card { padding: 18px; } .footInner { align-items: flex-start; flex-direction: column; } .cta { padding: 42px 17px; } }
+    @media(prefers-reduced-motion:reduce) { *, *:before, *:after { animation: none !important; scroll-behavior: auto !important; transition: none !important; } }
   </style>
 </head>
-
 <body>
-  <div class="glow one"></div>
-  <div class="glow two"></div>
-
-  <header>
-    <nav>
-      <a href="#home" class="logo">🌙 MOON<span>.</span></a>
-
-      <div class="links">
-  <a href="#about">À propos</a>
-  <a href="#domains">Univers</a>
-
-  <a class="button secondary" id="discordLogin" href="#">
-    Se connecter avec Discord
-  </a>
-
-  <a class="button nav-join"
-     href="https://discord.gg/Czs4bTjP"
-     target="_blank"
-     rel="noopener noreferrer">
-    Discord ↗
-  </a>
-</div>
-    </nav>
+  <header class="top">
+    <div class="wrap nav">
+      <a class="brand" href="#home" aria-label="MOON, accueil">
+        <span class="brandMark" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><g fill="#8b5cf6" stroke="#6d28d9" stroke-width=".7"><ellipse cx="24" cy="13" rx="6" ry="10"/><ellipse cx="34" cy="20" rx="6" ry="10" transform="rotate(72 34 20)"/><ellipse cx="30" cy="31" rx="6" ry="10" transform="rotate(144 30 31)"/><ellipse cx="17" cy="31" rx="6" ry="10" transform="rotate(216 17 31)"/><ellipse cx="13" cy="20" rx="6" ry="10" transform="rotate(288 13 20)"/></g><circle cx="24" cy="24" r="4" fill="#ffe6f3" stroke="#6d28d9" stroke-width="1"/></svg></span>
+        <span id="brandName">MOON</span>
+      </a>
+      <nav class="links" aria-label="Navigation principale"><a href="#about">À propos</a><a href="#details">Le serveur</a><a href="#univers">Univers</a><a href="#support">Support</a></nav>
+      <div class="right"><span class="online"><i class="dot"></i><span id="onlineCount">… en ligne</span></span><button class="btn ghost" id="discordLogin" type="button">Connexion Discord</button></div>
+    </div>
   </header>
 
-  <main>
-    <section class="hero" id="home">
-      <div class="badge">✦ GAMING · OSINT · CYBER</div>
-
-      <h1>WELCOME TO<br><span>MOON.</span></h1>
-
-      <p>
-        Une communauté, plusieurs univers.
-        Découvre MOON, rencontre de nouvelles personnes
-        et partage tes passions dans une ambiance unique.
-      </p>
-
-      <div class="actions">
-        <a class="button"
-           href="https://discord.gg/Czs4bTjP"
-           target="_blank"
-           rel="noopener noreferrer">
-          🌙 Rejoindre MOON
-        </a>
-
-        <a class="button secondary" href="#about">
-          Découvrir le projet ↓
-        </a>
-      </div>
-    </section>
-
-    <section class="section" id="about">
-      <div class="eyebrow">La communauté</div>
-      <h2>Plus qu'un serveur Discord.</h2>
-
-      <p class="intro">
-        MOON rassemble des passionnés autour du gaming,
-        de l'analyse de données publiques et de la technologie.
-        Un espace pour apprendre, échanger et progresser ensemble.
-      </p>
-
-      <div class="grid">
-        <article class="card">
-          <div class="icon">🌙</div>
-          <h3>Une communauté</h3>
-          <p>Discute, rencontre des membres et participe à la vie du serveur.</p>
-        </article>
-
-        <article class="card">
-          <div class="icon">🛡️</div>
-          <h3>Un espace sécurisé</h3>
-          <p>Des règles claires pour favoriser les échanges respectueux.</p>
-        </article>
-
-        <article class="card">
-          <div class="icon">⚡</div>
-          <h3>De nouveaux projets</h3>
-          <p>Des ressources, des événements et des idées à développer ensemble.</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="section" id="domains">
-      <div class="eyebrow">Nos univers</div>
-      <h2>Explore MOON.</h2>
-
-      <p class="intro">
-        Plusieurs centres d'intérêt réunis dans un même espace.
-      </p>
-
-      <div class="grid">
-        <article class="card">
-          <div class="icon">🎮</div>
-          <h3>Gaming</h3>
-          <p>Jeux vidéo, discussions, partage d'expériences et événements.</p>
-        </article>
-
-        <article class="card">
-          <div class="icon">🔎</div>
-          <h3>OSINT</h3>
-          <p>Découverte des sources publiques et méthodes de recherche responsables.</p>
-        </article>
-
-        <article class="card">
-          <div class="icon">💻</div>
-          <h3>Technologie</h3>
-          <p>Informatique, outils numériques et apprentissage de la cybersécurité.</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="join">
-        <div class="eyebrow">Ta place est ici</div>
-        <h2>Rejoins l'univers MOON.</h2>
-
-        <p>
-          Viens découvrir la communauté et participer à son évolution.
-        </p>
-
-        <div class="actions">
-          <a class="button"
-             href="https://discord.gg/Czs4bTjP"
-             target="_blank"
-             rel="noopener noreferrer">
-            🌙 Rejoindre le Discord ↗
-          </a>
-
-          <a class="button secondary"
-             href="https://www.tiktok.com/@moon.11646"
-             target="_blank"
-             rel="noopener noreferrer">
-            🎵 TikTok MOON ↗
-          </a>
+  <main id="home">
+    <section class="hero">
+      <div class="wrap heroGrid">
+        <div class="heroCopy">
+          <span class="eyebrow"><span class="flowerDot" aria-hidden="true">✿</span> Une communauté en pleine floraison</span>
+          <h1>WELCOME<br>TO <span id="heroName">MOON.</span></h1>
+          <p id="heroBio">Une communauté pour jouer, échanger et découvrir de nouveaux univers. Rejoins-nous et fais partie de l'aventure MOON.</p>
+          <div class="actions"><a class="btn primary" id="joinDiscord" href="https://discord.gg/Czs4bTjP" target="_blank" rel="noopener noreferrer">🌸 Rejoindre Discord ↗</a><a class="btn ghost" id="tiktokLink" href="https://www.tiktok.com/@moon.11646" target="_blank" rel="noopener noreferrer">♪ TikTok MOON ↗</a><a class="btn ghost" href="#univers">Découvrir nos univers ↓</a></div>
+          <div class="heroNote"><span aria-hidden="true">❀</span> Du gaming, des rencontres et une touche de sakura.</div>
+        </div>
+        <div class="botanicalCard" aria-label="Illustration vectorielle d'une branche de cerisier sakura en fleurs">
+          <span class="floatingPetal fp1" aria-hidden="true">✿</span><span class="floatingPetal fp2" aria-hidden="true">❀</span><span class="floatingPetal fp3" aria-hidden="true">✿</span>
+          <svg class="branchArt" viewBox="0 0 520 520" role="img" aria-labelledby="branchTitle branchDesc">
+            <title id="branchTitle">Branche de cerisier sakura</title><desc id="branchDesc">Une branche fine aux fleurs de cerisier blanches, rose tendre et violettes.</desc>
+            <defs>
+              <g id="sakuraBloom">
+                <g stroke="#c49add" stroke-width="1.2">
+                  <ellipse cx="0" cy="-21" rx="12" ry="21" fill="#fff"/><ellipse cx="20" cy="-6" rx="12" ry="21" transform="rotate(72 20 -6)" fill="#f9e8f6"/><ellipse cx="13" cy="17" rx="12" ry="21" transform="rotate(144 13 17)" fill="#eedcff"/><ellipse cx="-13" cy="17" rx="12" ry="21" transform="rotate(216 -13 17)" fill="#fff"/><ellipse cx="-20" cy="-6" rx="12" ry="21" transform="rotate(288 -20 -6)" fill="#f7d9ec"/>
+                </g><circle r="7" fill="#f4bfda" stroke="#bd7ec2" stroke-width="1.1"/><circle r="2.8" fill="#a66cb5"/>
+              </g>
+              <g id="sakuraBud"><circle r="8" fill="#f6c5df"/><circle r="4" fill="#e5a3cd"/></g>
+            </defs>
+            <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M58 472 C118 414 148 355 177 298 C207 239 245 203 302 171 C351 143 389 102 428 50" stroke="#8d67a5" stroke-width="8"/>
+              <path d="M166 319 C131 304 104 276 81 239" stroke="#9c78ad" stroke-width="5"/><path d="M201 260 C248 258 286 273 317 302" stroke="#9c78ad" stroke-width="5"/><path d="M282 184 C267 144 260 108 264 69" stroke="#9c78ad" stroke-width="5"/><path d="M346 146 C386 160 425 158 462 141" stroke="#9c78ad" stroke-width="5"/><path d="M119 397 C88 394 60 373 40 340" stroke="#9c78ad" stroke-width="4"/><path d="M387 102 C392 75 410 54 438 35" stroke="#9c78ad" stroke-width="4"/>
+            </g>
+            <g fill="#d8c5ec" stroke="#a78bc0" stroke-width="1.2"><path d="M148 347 C111 341 96 315 98 290 C126 295 149 316 148 347Z"/><path d="M220 245 C226 214 249 197 274 199 C270 227 250 246 220 245Z"/><path d="M342 151 C354 121 379 108 402 116 C388 142 366 155 342 151Z"/><path d="M110 405 C79 411 56 398 44 376 C70 369 96 381 110 405Z"/><path d="M297 175 C310 145 330 133 351 137 C342 160 322 174 297 175Z"/></g>
+            <use href="#sakuraBloom" transform="translate(79 231) scale(.92)"/><use href="#sakuraBloom" transform="translate(263 67) scale(.84)"/><use href="#sakuraBloom" transform="translate(430 47) scale(1.05)"/><use href="#sakuraBloom" transform="translate(462 141) scale(.76)"/><use href="#sakuraBloom" transform="translate(316 303) scale(.88)"/><use href="#sakuraBloom" transform="translate(40 339) scale(.72)"/><use href="#sakuraBloom" transform="translate(176 298) scale(.75)"/><use href="#sakuraBloom" transform="translate(349 142) scale(.66)"/><use href="#sakuraBloom" transform="translate(298 183) scale(.7)"/><use href="#sakuraBud" transform="translate(208 247) scale(.75)"/><use href="#sakuraBud" transform="translate(112 390) scale(.7)"/><use href="#sakuraBud" transform="translate(400 78) scale(.65)"/>
+            <g fill="#bf9cdb" opacity=".8"><ellipse cx="75" cy="180" rx="5" ry="10" transform="rotate(-30 75 180)"/><ellipse cx="390" cy="215" rx="5" ry="10" transform="rotate(28 390 215)"/><ellipse cx="220" cy="380" rx="4" ry="8" transform="rotate(-45 220 380)"/><ellipse cx="450" cy="255" rx="4" ry="8" transform="rotate(45 450 255)"/></g>
+          </svg>
+          <span class="floralLabel">🌸 Fleurs de sakura · blanc & violet</span>
         </div>
       </div>
     </section>
+
+    <section class="section" id="about"><div class="wrap two"><div class="sectionHead"><div class="kicker">✿ À propos</div><h2>Un endroit pour<br>se retrouver.</h2><p id="aboutBio">MOON réunit les passionnés autour du gaming, de la technologie et de la découverte, dans une ambiance accueillante.</p></div><div class="panel"><span class="smallFlower" aria-hidden="true">🌸</span><h3>L'esprit MOON</h3><div class="featureList"><div class="featureItem"><span aria-hidden="true">✿</span><div><b>Communauté</b><p>Des discussions, des rencontres et des moments à partager.</p></div></div><div class="featureItem"><span aria-hidden="true">🎮</span><div><b>Gaming</b><p>Des jeux, des sessions et des souvenirs ensemble.</p></div></div><div class="featureItem"><span aria-hidden="true">🌸</span><div><b>Curiosité</b><p>Technologie et apprentissage responsable.</p></div></div></div></div></div></section>
+
+    <section class="section" id="details"><div class="wrap"><div class="sectionHead"><div class="kicker">🌸 Bienvenue dans l'univers MOON</div><h2>Tout savoir sur<br>la communauté.</h2><p>Ses passions, son fonctionnement et les valeurs qui permettent à chacun d'y trouver sa place.</p></div><article class="panel detailedBioPanel"><span class="smallFlower" aria-hidden="true">✿</span><h3>La présentation du serveur</h3><p id="aboutDetailedBio" class="detailedBioText">Bienvenue sur MOON, une communauté Discord pensée pour rassembler celles et ceux qui aiment le gaming, la technologie et les échanges dans un univers blanc et violet inspiré des fleurs de sakura. L’objectif est simple : partager des passions, faire des rencontres et construire une communauté active où chacun peut trouver sa place.
+
+🎮 GAMING — Parle de tes jeux préférés, cherche des coéquipiers, partage tes clips, tes astuces et tes meilleurs moments. Que tu viennes pour organiser des parties, découvrir de nouveaux jeux ou simplement discuter, tu peux participer à ton rythme.
+
+🧠 TECHNOLOGIE, OSINT & CSINT — Échange autour des outils numériques, de la recherche à partir de sources publiques, de la cybersécurité et de l’apprentissage technique. Ces sujets doivent rester légaux et responsables : pas de doxing, de harcèlement, de menaces ni de diffusion d’informations personnelles ou sensibles. Le respect de la vie privée passe avant tout.
+
+🤝 COMMUNAUTÉ & PARTENARIATS — Fais connaissance avec les membres, suis les annonces, propose des idées et présente des projets ou des communautés qui correspondent à l’esprit MOON. Les partenariats doivent rester respectueux, clairs et compatibles avec les conditions définies par le staff.
+
+🛡️ STAFF & ASSISTANCE — Si tu rencontres un problème, si tu as une question ou si tu souhaites signaler une situation, contacte le staff ou utilise le système de tickets lorsqu’il est disponible. Le règlement sert à garder un espace agréable et les actions de modération à protéger les membres. N’envoie jamais de mot de passe, de token ou d’autre secret dans un ticket.
+
+🌸 COMMENT PARTICIPER — Lis le règlement en arrivant, respecte les autres, choisis les salons adaptés et contribue aux discussions sans pression. Les idées, la bonne humeur et l’aide des membres font évoluer MOON au fil du temps. Rejoins la communauté via le bouton Discord et découvre l’univers à ton rythme.</p></article></div></section>
+
+    <section class="section" id="univers"><div class="wrap"><div class="sectionHead"><div class="kicker">Nos univers</div><h2>Fais fleurir tes passions.</h2><p>Une place pour tes projets, tes jeux et les personnes qui les partagent.</p></div><div class="cards"><article class="card"><div class="smallFlower" aria-hidden="true">🎮</div><h3>Gaming</h3><p>Partage tes clips, organise des parties et découvre de nouveaux jeux.</p></article><article class="card"><div class="smallFlower" aria-hidden="true">🧠</div><h3>OSINT & technologie</h3><p>Recherche d'informations publiques, outils et cybersécurité responsable.</p></article><article class="card"><div class="smallFlower" aria-hidden="true">🌸</div><h3>Communauté</h3><p>Discute, rencontre de nouvelles personnes et fais vivre MOON.</p></article></div></div></section>
+
+    <section class="section" id="support"><div class="wrap two"><div class="sectionHead"><div class="kicker">Besoin d'aide ?</div><h2>On t'écoute.</h2><p>Envoie un ticket au staff depuis le site. L'équipe pourra le consulter et répondre depuis MOON Manager.</p><p class="muted">🔒 N'envoie jamais de mot de passe ou de token dans un ticket.</p></div><div class="panel"><form id="ticketForm"><div class="field"><label for="ticketName">Ton pseudo</label><input id="ticketName" maxlength="80" required placeholder="Pseudo Discord" autocomplete="nickname"></div><div class="field"><label for="ticketEmail">E-mail</label><input id="ticketEmail" type="email" maxlength="254" required placeholder="toi@exemple.com" autocomplete="email"></div><div class="field"><label for="ticketSubject">Sujet</label><input id="ticketSubject" maxlength="120" required placeholder="Objet de ta demande"></div><div class="field"><label for="ticketMessage">Message</label><textarea id="ticketMessage" maxlength="5000" required placeholder="Explique-nous ta demande…"></textarea></div><button class="btn primary" type="submit">Envoyer le ticket ↗</button><div class="status" id="ticketStatus" role="status" aria-live="polite"></div><small class="muted ticketHint">Les réponses sont visibles par le staff dans le panneau admin. Aucun e-mail automatique n'est envoyé.</small></form></div></div></section>
+
+    <section class="section"><div class="wrap"><div class="cta"><div class="kicker">Ta place est ici</div><h2>On se retrouve sur MOON ?</h2><p id="ctaBio" class="muted">Rejoins la communauté, fais connaissance et prends part à l'aventure.</p><a class="btn primary" id="joinDiscordBottom" href="https://discord.gg/Czs4bTjP" target="_blank" rel="noopener noreferrer">🌸 Rejoindre la communauté ↗</a></div></div></section>
   </main>
 
-  <footer>
-    <strong>🌙 MOON</strong>
-    <span>Gaming · OSINT · Technologie</span>
-    <span>© <span id="year"></span> MOON</span>
-  </footer>
+  <footer class="foot"><div class="wrap footInner"><span class="footBrand"><span aria-hidden="true">🌸</span><b id="footerName">MOON</b> · Gaming · Communauté · Technologie</span><span class="footSocial"><a id="tiktokFooter" href="https://www.tiktok.com/@moon.11646" target="_blank" rel="noopener noreferrer">♪ Suis MOON sur TikTok ↗</a></span><span>© <span id="year"></span> MOON — Une touche de sakura.</span><span class="creatorCredit">Made by Santa 🌸</span></div></footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-  document.getElementById("year").textContent =
-    new Date().getFullYear();
+  <script>
+    (() => {
+      const SUPABASE_URL = "https://uhpveiqgaharvwbqncre.supabase.co";
+      const SUPABASE_KEY = "sb_publishable_dm5DWX672NZGeZPd3FkXQA_b5DxWzat";
+      const $ = (id) => document.getElementById(id);
+      const defaults = {
+        site_name: "MOON",
+        site_bio: "MOON est une communauté Discord autour du gaming, de la technologie et des découvertes, pensée pour échanger dans une ambiance accueillante avec un univers blanc, violet et sakura.",
+        site_detailed_bio: "Bienvenue sur MOON, une communauté Discord pensée pour rassembler celles et ceux qui aiment le gaming, la technologie et les échanges dans un univers blanc et violet inspiré des fleurs de sakura. L’objectif est simple : partager des passions, faire des rencontres et construire une communauté active où chacun peut trouver sa place.\n\n🎮 GAMING — Parle de tes jeux préférés, cherche des coéquipiers, partage tes clips, tes astuces et tes meilleurs moments. Que tu viennes pour organiser des parties, découvrir de nouveaux jeux ou simplement discuter, tu peux participer à ton rythme.\n\n🧠 TECHNOLOGIE, OSINT & CSINT — Échange autour des outils numériques, de la recherche à partir de sources publiques, de la cybersécurité et de l’apprentissage technique. Ces sujets doivent rester légaux et responsables : pas de doxing, de harcèlement, de menaces ni de diffusion d’informations personnelles ou sensibles. Le respect de la vie privée passe avant tout.\n\n🤝 COMMUNAUTÉ & PARTENARIATS — Fais connaissance avec les membres, suis les annonces, propose des idées et présente des projets ou des communautés qui correspondent à l’esprit MOON. Les partenariats doivent rester respectueux, clairs et compatibles avec les conditions définies par le staff.\n\n🛡️ STAFF & ASSISTANCE — Si tu rencontres un problème, si tu as une question ou si tu souhaites signaler une situation, contacte le staff ou utilise le système de tickets lorsqu’il est disponible. Le règlement sert à garder un espace agréable et les actions de modération à protéger les membres. N’envoie jamais de mot de passe, de token ou d’autre secret dans un ticket.\n\n🌸 COMMENT PARTICIPER — Lis le règlement en arrivant, respecte les autres, choisis les salons adaptés et contribue aux discussions sans pression. Les idées, la bonne humeur et l’aide des membres font évoluer MOON au fil du temps. Rejoins la communauté via le bouton Discord et découvre l’univers à ton rythme.",
+        discord_invite: "https://discord.gg/Czs4bTjP",
+        tiktok_url: "https://www.tiktok.com/@moon.11646",
+        primary_color: "#6d28d9",
+        background_color: "#fffaff"
+      };
 
-  const supabaseClient = window.supabase.createClient(
-    "https://uhpveiqgaharvwbqncre.supabase.co",
-    "sb_publishable_dm5DWX672NZGeZPd3FkXQA_b5DxWzat"
-  );
+      $("year").textContent = String(new Date().getFullYear());
 
-  document.getElementById("discordLogin").addEventListener("click", async (event) => {
-    event.preventDefault();
-
-    const { error } = await supabaseClient.auth.signInWithOAuth({
-      provider: "discord",
-      options: {
-        redirectTo: "https://moon-manager.pages.dev"
+      if (!window.supabase?.createClient) {
+        $("onlineCount").textContent = "indisponible";
+        $("ticketStatus").textContent = "Le service est indisponible : la bibliothèque Supabase n'a pas chargé. Recharge la page ou réessaie plus tard.";
+        $("discordLogin").disabled = true;
+        $("ticketForm").querySelector('button[type="submit"]').disabled = true;
+        return;
       }
-    });
 
-    if (error) alert("Erreur : " + error.message);
-  });
-</script>
+      const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+      const validHex = (value, fallback) => /^#[0-9a-f]{6}$/i.test(value || "") ? value : fallback;
+      const validInvite = (value) => /^https:\/\/(discord\.gg|discord\.com\/invite)\/[A-Za-z0-9_-]+\/?$/.test(value || "") ? value : defaults.discord_invite;
+      const validTikTok = (value) => /^https:\/\/(www\.)?tiktok\.com\/@[A-Za-z0-9._]+\/?$/.test(value || "");
+
+      function applySettings(value) {
+        const settings = { ...defaults, ...(value || {}) };
+        const name = String(settings.site_name || defaults.site_name).trim().slice(0, 100) || defaults.site_name;
+        const bio = String(settings.site_bio || defaults.site_bio).trim().slice(0, 500) || defaults.site_bio;
+        const detailedBio = String(settings.site_detailed_bio || defaults.site_detailed_bio).trim().slice(0, 3000) || defaults.site_detailed_bio;
+        const invite = validInvite(settings.discord_invite);
+        const tiktok = String(settings.tiktok_url ?? defaults.tiktok_url).trim();
+        const safeTikTok = tiktok && validTikTok(tiktok) ? tiktok : (tiktok ? defaults.tiktok_url : "");
+        const background = validHex(settings.background_color, defaults.background_color);
+        const accent = validHex(settings.primary_color, defaults.primary_color);
+        const hexToRgb = (hex) => [1, 3, 5].map((index) => parseInt(hex.slice(index, index + 2), 16));
+        const rgb = hexToRgb(background).map((channel) => {
+          const value = channel / 255;
+          return value <= 0.04045 ? value / 12.92 : Math.pow((value + 0.055) / 1.055, 2.4);
+        });
+        const luminance = 0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2];
+        const darkBackground = luminance < 0.42;
+        document.documentElement.style.setProperty("--bg", background);
+        document.documentElement.style.setProperty("--accent", accent);
+        document.documentElement.style.setProperty("--ink", darkBackground ? "#faf7ff" : "#32204f");
+        document.documentElement.style.setProperty("--muted", darkBackground ? "#d1c5df" : "#786a91");
+        document.documentElement.style.setProperty("--line", darkBackground ? "#ffffff35" : "#e8def6");
+        $("brandName").textContent = name;
+        $("heroName").textContent = name + ".";
+        $("footerName").textContent = name;
+        $("heroBio").textContent = bio;
+        $("aboutBio").textContent = bio;
+        $("aboutDetailedBio").textContent = detailedBio;
+        $("ctaBio").textContent = "Rejoins MOON pour jouer, échanger, découvrir de nouveaux univers et contribuer à une communauté respectueuse.";
+        $("joinDiscord").href = invite;
+        $("joinDiscordBottom").href = invite;
+        $("tiktokLink").href = safeTikTok || defaults.tiktok_url;
+        $("tiktokFooter").href = safeTikTok || defaults.tiktok_url;
+        $("tiktokLink").hidden = !safeTikTok;
+        $("tiktokFooter").parentElement.hidden = !safeTikTok;
+        document.title = name + " — Communauté";
+      }
+
+      async function loadSettings() {
+        try {
+          const { data, error } = await db.from("moon_site_settings").select("value").eq("key", "main").maybeSingle();
+          if (error) throw error;
+          applySettings(data?.value || defaults);
+        } catch (error) {
+          console.warn("Impossible de charger les paramètres; affichage des valeurs par défaut.", error);
+          applySettings(defaults);
+        }
+      }
+
+      $("discordLogin").addEventListener("click", async () => {
+        const { error } = await db.auth.signInWithOAuth({
+          provider: "discord",
+          options: { redirectTo: window.location.origin }
+        });
+        if (error) alert("Connexion Discord impossible : " + error.message);
+      });
+
+      $("ticketForm").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const button = event.submitter || $("ticketForm").querySelector('button[type="submit"]');
+        const status = $("ticketStatus");
+        button.disabled = true;
+        status.textContent = "Envoi en cours…";
+        try {
+          const { data, error } = await db.rpc("create_moon_support_ticket", {
+            p_name: $("ticketName").value.trim(),
+            p_email: $("ticketEmail").value.trim(),
+            p_subject: $("ticketSubject").value.trim(),
+            p_message: $("ticketMessage").value.trim()
+          });
+          if (error) throw error;
+          $("ticketForm").reset();
+          status.textContent = "🌸 Ticket envoyé ! Référence : " + String(data) + ". Le staff le verra dans MOON Manager.";
+        } catch (error) {
+          console.error(error);
+          status.textContent = "Envoi impossible. Vérifie que moon_setup.sql a bien été installé dans Supabase, puis réessaie.";
+        } finally {
+          button.disabled = false;
+        }
+      });
+
+      let visitorId = "";
+      try {
+        visitorId = localStorage.getItem("moon_visitor_id") || "";
+        if (!visitorId) {
+          visitorId = window.crypto?.randomUUID ? window.crypto.randomUUID() : "v-" + Math.random().toString(36).slice(2) + Date.now();
+          localStorage.setItem("moon_visitor_id", visitorId);
+        }
+      } catch (_) {
+        visitorId = "v-" + Math.random().toString(36).slice(2) + Date.now();
+      }
+
+      async function updateOnlineCount() {
+        try {
+          const heartbeat = await db.rpc("moon_visitor_heartbeat", { p_visitor_id: visitorId });
+          if (heartbeat.error) throw heartbeat.error;
+          const count = await db.rpc("moon_online_count");
+          if (count.error) throw count.error;
+          $("onlineCount").textContent = (Number(count.data) || 0) + " en ligne";
+        } catch (error) {
+          $("onlineCount").textContent = "compteur indisponible";
+          console.warn("Compteur indisponible; vérifie les fonctions RPC dans moon_setup.sql.", error);
+        }
+      }
+
+      loadSettings();
+      updateOnlineCount();
+      window.setInterval(updateOnlineCount, 25000);
+      window.setInterval(loadSettings, 60000);
+    })();
+  </script>
 </body>
 </html>
